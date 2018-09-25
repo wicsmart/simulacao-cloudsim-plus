@@ -9,6 +9,7 @@ import ch.qos.logback.classic.Level;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.cloudbus.cloudsim.allocationpolicies.VmAllocationPolicySimple;
 import org.cloudbus.cloudsim.brokers.DatacenterBroker;
 import org.cloudbus.cloudsim.brokers.DatacenterBrokerSimple;
@@ -70,8 +71,11 @@ public class SimulacaoDinamica implements Runnable{
         addSegundaCarga();
      
         simulation.addOnClockTickListener(this::onClockTickListener);
+        final long startTimeMilliSec = System.currentTimeMillis();
         simulation.start();
-        resultado.estatiticas(vmColetores, vmCoreback, brokers);
+        final long finishTimeMilliSec = System.currentTimeMillis() - startTimeMilliSec;
+        System.out.println("Tempo de simulacao: "+miliTotime(finishTimeMilliSec));
+        
         
 //        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
 //                    .setTitle(brokers.get(0).getName())
@@ -80,8 +84,11 @@ public class SimulacaoDinamica implements Runnable{
 //                    .setTitle(brokers.get(1).getName())
 //                    .build();
 //         
-     resultado.saveElastic(brokers);
-       
+    final long sartELK = System.currentTimeMillis();
+    resultado.saveElastic(brokers);        
+    final long finishELK = System.currentTimeMillis() - sartELK;
+        System.out.println("Tempo de ELK: "+miliTotime(finishELK));
+  
     }
 
     public void onClockTickListener(EventInfo event) {
@@ -143,6 +150,15 @@ public class SimulacaoDinamica implements Runnable{
         Cloudlet cloudlet = cloud.cria(LENGTH2, id);
         this.cloudletList.add(cloudlet);
         this.brokers.get(1).submitCloudlet(cloudlet);
+    }
+    
+     public static String miliTotime(long mili) {
+        String tempo = String.format("%02d:%02d:%02d.%03d",
+                TimeUnit.MILLISECONDS.toHours(mili),
+                TimeUnit.MILLISECONDS.toMinutes(mili) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(mili)),
+                TimeUnit.MILLISECONDS.toSeconds(mili) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(mili)),
+                mili - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(mili)));
+        return tempo;
     }
 
     @Override

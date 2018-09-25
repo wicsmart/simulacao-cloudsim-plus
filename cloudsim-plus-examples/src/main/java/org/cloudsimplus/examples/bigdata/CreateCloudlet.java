@@ -61,7 +61,6 @@ public class CreateCloudlet {
         for( int carga: cargas){
             delay = (double) 1/carga;
             quant = tempo*carga;
-            System.out.println("Proxima carga comeca " +tempoInicial);
             for(int i = 0; i<quant; i++){
                 Cloudlet cl = cria(fileSize, id);
                 cl.setSubmissionDelay(tempoInicial+i*delay);
@@ -69,8 +68,6 @@ public class CreateCloudlet {
                 id++;
             }
             tempoInicial += tempo;
-            System.out.println("Carga termina " +tempoInicial);
-            System.out.println("");
         }
        return lista;
     }
