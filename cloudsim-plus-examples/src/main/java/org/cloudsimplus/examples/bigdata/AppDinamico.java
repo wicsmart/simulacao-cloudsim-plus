@@ -17,7 +17,8 @@ public class AppDinamico {
     public static void main(String[] args) throws IOException {
    
         final int[] CARGA = {65, 110, 85, 120};
-        final int[] CARGA1 = {65, 80, 100 ,110, 90, 70};
+        final int[] CARGA1 = {90, 100, 130, 100};
+        
         /*
           Parametros:
           1 - Quant vms do coletor
@@ -26,11 +27,25 @@ public class AppDinamico {
           4 - Carga de arquivos por segundo
           5 - Nome da simulação
          */
-        int minutos = 1;
-        String name = "cargaD1";
-        SimulacaoDinamica sim = new SimulacaoDinamica(3, 2,60*minutos , CARGA1, name);
-        sim.run();
+        int minutos = 2;
+        double lenght2 = 1.1;
+//        String name = "vms3310%";
+//        SimulacaoDinamica sim1 = new SimulacaoDinamica(3, 3, 60*minutos , CARGA1, name, lenght2);
+//        sim1.run();
+//        
+//        name = "vms3410%";
+//        SimulacaoDinamica sim2 = new SimulacaoDinamica(3, 4,60*minutos , CARGA1, name, lenght2);
+//        sim2.run();
+//        
+//        name = "vms3320%";
+//        lenght2 = 1.2;
+//        SimulacaoDinamica sim3 = new SimulacaoDinamica(3, 3,60*minutos , CARGA1, name, lenght2);
+//        sim3.run();
+//        
+        String name = "vms3420%";
+        SimulacaoDinamica sim4 = new SimulacaoDinamica(3, 4,60*minutos , CARGA1, name, lenght2);
+        sim4.run();
         
-    }
+       }
 
 }

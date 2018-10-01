@@ -53,6 +53,7 @@ public class CreateCloudlet {
     
     
     public List<Cloudlet> geraCargaDinamica(int[] cargas, int tempo){
+      
         List<Cloudlet> lista = new ArrayList<>();
         double delay = 0.0;
         double tempoInicial = 0.0;

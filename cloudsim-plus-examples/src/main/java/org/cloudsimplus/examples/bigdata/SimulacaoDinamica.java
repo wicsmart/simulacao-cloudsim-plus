@@ -36,8 +36,8 @@ public class SimulacaoDinamica implements Runnable{
     protected List<Vm> vmCoreback;
     private String nome;
 
-    private final int LENGTH1 = 1000;
-    private final int LENGTH2 = 1650;
+    private int LENGTH1 = 1000;
+    private int LENGTH2 = 1650;
 
     private int coletores;
     private int coreback;
@@ -46,16 +46,18 @@ public class SimulacaoDinamica implements Runnable{
     private int tempo;
     private Resultado resultado;
 
-    public SimulacaoDinamica(int coletores, int coreback, int tempo, int[] cargas, String nome) {
+    public SimulacaoDinamica(int coletores, int coreback, int tempo, int[] cargas, String nome, double lenght2) {
         this.coletores = coletores;
         this.coreback = coreback;
         this.tempo = tempo;
         this.cargas = cargas;
         this.nome = nome;
+        this.LENGTH2 = (int) (LENGTH2*lenght2);
     }
 
     public void inicia() throws IOException {
         Log.setLevel(ch.qos.logback.classic.Level.ERROR);
+        System.out.println("Tamanho da segunda carga : "+LENGTH2);
         simulation = new CloudSim();
         resultado = new Resultado(coletores, coreback, tempo, nome, LENGTH1, LENGTH2);
         
@@ -147,6 +149,7 @@ public class SimulacaoDinamica implements Runnable{
 
     private void criaSegundaCarga(int id) {
         CreateCloudlet cloud = new CreateCloudlet(512, 512);
+        
         Cloudlet cloudlet = cloud.cria(LENGTH2, id);
         this.cloudletList.add(cloudlet);
         this.brokers.get(1).submitCloudlet(cloudlet);
