@@ -7,6 +7,7 @@ package org.cloudsimplus.examples.bigdata;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.cloudbus.cloudsim.cloudlets.Cloudlet;
 import org.cloudbus.cloudsim.cloudlets.CloudletSimple;
 import org.cloudbus.cloudsim.utilizationmodels.UtilizationModel;
@@ -70,6 +71,44 @@ public class CreateCloudlet {
             }
             tempoInicial += tempo;
         }
+       return lista;
+    }
+    
+     
+     public List<Cloudlet> geraCargaDinamica3(int[] cargas, int tempo){
+        
+        List<Cloudlet> lista = new ArrayList<>();
+        double delay = 0.0;
+        double tempoInicial = 0.0;
+        int id = 0;
+        Random r = new Random();
+	double div;
+        int max;
+        int min;
+        while(tempoInicial <= tempo){
+            div = tempoInicial/120;
+            if(div <= 1){
+                min = 0; max = 1;
+            }else if(div>1 && div<=2){
+                min = 1; max = min +1;
+            }else if(div>2 && div<=3){
+                min = 2; max = min +1;
+            }else if(div>3 && div<=4){
+                min = 3; max = min +1;
+            }else if(div>4 && div<=5){
+                min = 4; max = min +1;
+            }else {
+                min = 5; max = min +1;
+            }
+            int carga = cargas[r.nextInt((max - min) + 1) + min];
+            delay = (double) 1/carga;
+            Cloudlet cl = cria(fileSize, id);
+            cl.setSubmissionDelay(tempoInicial+delay);
+            lista.add(cl);
+            id++;
+            tempoInicial += delay;
+        }
+        System.out.println("Quantidade de cloudlets: "+id);        
        return lista;
     }
    
