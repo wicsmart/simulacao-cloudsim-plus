@@ -5,19 +5,25 @@
  */
 package org.cloudsimplus.examples.bigdata;
 
+import ch.qos.logback.classic.Level;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.cloudsimplus.util.Log;
 
 
 /**
  *
  * @author wictor
  */
-public class AppDinamico {
+public class AppDinamico{
 
     public static void main(String[] args) throws IOException {
-   
+        Log.setLevel(Level.OFF);
+        
+        List<SimulacaoDinamica> listasim = new ArrayList<>(1);
         final int[] CARGA = {65, 80, 110, 85, 130, 80, 65};
-       // final int[] CARGA = {65, 70};
+        final int[] CARGA1 = {90, 100, 130, 120, 160, 110, 90};
 
         /*
           Parametros:
@@ -29,9 +35,23 @@ public class AppDinamico {
          */
         int minutos = 12;
         double lenght2 = 1;
-        String name = "vms22teste7";
-        SimulacaoDinamica sim1 = new SimulacaoDinamica(2, 2, 60*minutos, CARGA, name, lenght2);
-        sim1.run();
+        String name = "vms32Carga1";
+        SimulacaoDinamica sim1 = new SimulacaoDinamica(3, 2, 60*minutos, CARGA1, name, lenght2);
+        name = "vms33Carga1";
+   //     SimulacaoDinamica sim2 = new SimulacaoDinamica(3, 3, 60*minutos, CARGA1, name, lenght2);
+        
+        
+        listasim.add(sim1);
+     //   listasim.add(sim2);
+//        
+
+        final long startTimeMilliSec = System.currentTimeMillis();
+        listasim.parallelStream().forEach(SimulacaoDinamica::run);
+        final long finishTimeMilliSec = System.currentTimeMillis() - startTimeMilliSec;
+
+        Log.setLevel(Level.INFO);
+        System.out.printf("Time to run %d simulations: %d milliseconds\n", listasim.size(), finishTimeMilliSec);
+
         
 //        lenght2 = 1.5;
 //        name = "vms335%";

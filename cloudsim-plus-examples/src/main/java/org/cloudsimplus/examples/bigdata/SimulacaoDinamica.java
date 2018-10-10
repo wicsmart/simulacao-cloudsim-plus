@@ -36,8 +36,8 @@ public class SimulacaoDinamica implements Runnable{
     protected List<Vm> vmCoreback;
     private String nome;
 
-    private int LENGTH1 = 900;
-    private int LENGTH2 = 1400;
+    private int LENGTH1 = 1000;
+    private int LENGTH2 = 1500;
 
     private int coletores;
     private int coreback;
