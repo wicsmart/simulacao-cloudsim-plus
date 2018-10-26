@@ -71,9 +71,11 @@ public class CreateCloudlet {
             }
             tempoInicial += tempo;
         }
+          System.out.println("Quantidade de cloudlets: "+id);     
        return lista;
     }
     
+     
      
      public List<Cloudlet> geraCargaDinamica3(int[] cargas, int tempo){
         
@@ -100,8 +102,15 @@ public class CreateCloudlet {
             }else {
                 min = 5; max = min +1;
             }
-            int carga = cargas[r.nextInt((max - min) + 1) + min];
-            delay = (double) 1/carga;
+         //   int carga = cargas[r.nextInt((max - min) + 1) + min];
+         int carga = cargas[min]; 
+        if(id % 100 == 0){
+            delay = 0.25;
+            if (carga > 100) delay = 0.5;
+        }else{
+             delay = (double) 1/carga;
+        }
+
             Cloudlet cl = cria(fileSize, id);
             cl.setSubmissionDelay(tempoInicial+delay);
             lista.add(cl);

@@ -23,7 +23,7 @@ public class CreateHost {
 
     private long mips = 10000; // capacity of each CPU core (in Million Instructions per Second)
     private long ram = 17000; // host memory (MEGABYTE) 17 Gb
-    private long storage = 40000; // host storage (MEGABYTE) 40 Gb
+    private long storage = 400000; // host storage (MEGABYTE) 40 Gb
     private long bw = 1000; //in Megabits/s
     private int numberOfHosts;
     private int numberOfPes;

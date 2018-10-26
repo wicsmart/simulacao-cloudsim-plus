@@ -37,7 +37,7 @@ public class SimulacaoDinamica implements Runnable{
     private String nome;
 
     private int LENGTH1 = 1000;
-    private int LENGTH2 = 1500;
+    private int LENGTH2 = 1550;
 
     private int coletores;
     private int coreback;
@@ -78,14 +78,14 @@ public class SimulacaoDinamica implements Runnable{
         final long finishTimeMilliSec = System.currentTimeMillis() - startTimeMilliSec;
         System.out.println("Tempo de simulacao: "+miliTotime(finishTimeMilliSec));
         
-        
+//        
 //        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
 //                    .setTitle(brokers.get(0).getName())
 //                    .build();
 //        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
 //                    .setTitle(brokers.get(1).getName())
 //                    .build();
-//         
+         
     final long sartELK = System.currentTimeMillis();
     resultado.saveElastic(brokers);        
     final long finishELK = System.currentTimeMillis() - sartELK;
@@ -94,7 +94,7 @@ public class SimulacaoDinamica implements Runnable{
     }
 
     public void onClockTickListener(EventInfo event) {
-        resultado.cpuRamSalva(this.vmColetores, this.vmCoreback, event);
+ //       resultado.cpuRamSalva(this.vmColetores, this.vmCoreback, event);
     }
 
     private Datacenter createDatacenter() {
@@ -113,7 +113,7 @@ public class SimulacaoDinamica implements Runnable{
     }
 
     private List<Cloudlet> geraCarga(int[] cargas, int tempo){
-       CreateCloudlet cloud = new CreateCloudlet(1536, 512);
+       CreateCloudlet cloud = new CreateCloudlet(300, 300);
        return  cloud.geraCargaDinamica3(cargas, tempo);
     }
 
