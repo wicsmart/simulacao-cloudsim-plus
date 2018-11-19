@@ -5,8 +5,8 @@
  */
 package org.cloudsimplus.examples.bigdata;
 
-
 import com.google.gson.JsonObject;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +25,8 @@ import org.cloudbus.cloudsim.vms.Vm;
 import org.cloudsimplus.listeners.EventInfo;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -39,7 +41,9 @@ public class Resultado {
     private String nome;
     private long length1;
     private long length2;
-
+    private String bigdata = "bigdata";
+    private String type = "_doc";
+    private String source = "_source";
     private List<JsonObject> lista = new ArrayList<>();
 
     public Resultado(int coletores, int coreback, int tempo,
@@ -52,11 +56,66 @@ public class Resultado {
         this.length2 = length2;
     }
 
+    public void createFile(List<DatacenterBroker> brokers) throws IOException {
+        String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
+
+        List<? extends CloudletSimple> cloudlist1;
+        List<? extends CloudletSimple> cloudlist2;
+        cloudlist1 = brokers.get(0).getCloudletFinishedList();
+        cloudlist2 = brokers.get(1).getCloudletFinishedList();
+        JSONObject obj = new JSONObject();
+        JSONArray docs = new JSONArray();
+
+        for (CloudletSimple cdl : cloudlist1) {
+            JsonObject doc = new JsonObject();
+            JsonObject campo = new JsonObject();
+            doc.addProperty("_index", "bigdata");
+            doc.addProperty("_type", "_doc");
+            campo.addProperty("created", timestamp);
+            campo.addProperty("startTimeColetor", segundoTotime(cdl.getExecStartTime()));
+            campo.addProperty("execTimeColetor", cdl.getActualCpuTime());
+            for (CloudletSimple cdl2 : cloudlist2) {
+                if (cdl2.getId() == (cdl.getId())) {
+                    campo.addProperty("startTimeCore", segundoTotime(cdl2.getExecStartTime()));
+                    campo.addProperty("execTimeCore", cdl2.getActualCpuTime());
+                }
+            }
+            campo.addProperty("duracao", segundoTotime(tempo));
+            campo.addProperty("coletor", coletores);
+            campo.addProperty("core", coreback);
+            campo.addProperty("carga_dados", carga);
+            campo.addProperty("nome", nome);
+            campo.addProperty("lengthColetor", length1);
+            campo.addProperty("lengthCore", length2);
+            doc.add("_source", campo);
+            docs.add(doc);
+        }
+        for (JsonObject js : lista) {
+            JsonObject doc = new JsonObject();
+            doc.addProperty("_index", "bigdata");
+            doc.addProperty("_type", "_doc");
+            js.addProperty("created", timestamp);
+            js.addProperty("nome", nome);
+            js.addProperty("carga_dados", carga);
+            doc.add("_source", js);
+            docs.add(doc);
+        }
+        System.out.println("init infra");
+        try (FileWriter file = new FileWriter("/home/wictor/resultado/"+nome+".json")) {
+            file.write(docs.toJSONString());
+            System.out.println("Successfully Copied JSON Object to File...");
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
     public void saveElastic(List<DatacenterBroker> brokers) throws IOException {
         String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
+       
         RestClient restClient = RestClient.builder(
                 new HttpHost("localhost", 9200, "http")).build();
- 
+    
         List<? extends CloudletSimple> cloudlist1;
         List<? extends CloudletSimple> cloudlist2;
         cloudlist1 = brokers.get(0).getCloudletFinishedList();
@@ -81,22 +140,22 @@ public class Resultado {
             campo.addProperty("nome", nome);
             campo.addProperty("lengthColetor", length1);
             campo.addProperty("lengthCore", length2);
-          
+
             HttpEntity entity = new NStringEntity(campo.toString(), ContentType.APPLICATION_JSON);
             Response response;
             Map<String, String> params = Collections.emptyMap();
             response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
         }
-        for (JsonObject js : lista) {
-            js.addProperty("created", timestamp);
-            js.addProperty("nome", nome);
-            js.addProperty("carga_dados", carga);
-          
-            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
-            Response response;
-            Map<String, String> params = Collections.emptyMap();
-            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
-        }
+//        for (JsonObject js : lista) {
+//            js.addProperty("created", timestamp);
+//            js.addProperty("nome", nome);
+//            js.addProperty("carga_dados", carga);
+//
+//            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
+//            Response response;
+//            Map<String, String> params = Collections.emptyMap();
+//            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
+//        }
         restClient.close();
     }
 

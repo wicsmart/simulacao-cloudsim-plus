@@ -28,12 +28,13 @@ public class AppDinamico{
 //        
 //        int[] carga = {c1,c2};
 //        
-        Log.setLevel(Level.OFF);
+        Log.setLevel(Level.INFO);
         
         List<SimulacaoDinamica> listasim = new ArrayList<>(1);
-        final int[] CARGA = {65, 80, 110, 85, 130, 80, 65};
-        final int[] CARGA1 = {90, 100, 130, 120, 160, 110, 90};
-        final int[] CARGA2 = {110, 85, 130};
+        final int[] CARGA = {65, 80, 110, 85, 130, 80};
+        final int[] CARGA1 = {100, 130,140, 120, 160, 110, 90};
+        final int[] CARGA2 = {4500};
+        
         /*
           Parametros:
         
@@ -43,23 +44,25 @@ public class AppDinamico{
           4 - Carga de arquivos por segundo
           5 - Nome da simulação
          */
-        int minutos = 6;
+        int minutos = 1;
+        int vm1 = 2; int vm2 = 2;
         double lenght2 = 1;
-        String name = "teste";
-        SimulacaoDinamica sim1 = new SimulacaoDinamica(2, 2, 60*minutos, CARGA2, name, lenght2);
+        String name =  Integer.toString(minutos)+"min-"+
+                Integer.toString(vm1)+"x"+Integer.toString(vm2)+"-teste4";
+        SimulacaoDinamica sim1 = new SimulacaoDinamica(vm1,vm2, 60*minutos, CARGA2, name, lenght2);
         sim1.run();
-        
-        
-   //     SimulacaoDinamica sim2 = new SimulacaoDinamica(3, 3, 60*minutos, CARGA1, name, lenght2);
-        
-        
-  //      listasim.add(sim1);
-     //   listasim.add(sim2);
 //        
-
-     
-  //      listasim.parallelStream().forEach(SimulacaoDinamica::run);
-        
+//        name =  Integer.toString(minutos)+"min-"+
+//                Integer.toString(vm1)+"x"+Integer.toString(vm2)+"carga";
+//        SimulacaoDinamica sim2 = new SimulacaoDinamica(vm1,vm2, 60*minutos, CARGA, name, lenght2);
+//        
+//        listasim.add(sim1);
+//        listasim.add(sim2);
+//        listasim.add(sim3);
+//        listasim.add(sim4);
+//
+//        listasim.parallelStream().forEach(SimulacaoDinamica::run);
+//        
 //        lenght2 = 1.5;
 //        name = "vms335%";
 //        SimulacaoDinamica sim2 = new SimulacaoDinamica(3, 4,60*minutos , CARGA, name, lenght2);

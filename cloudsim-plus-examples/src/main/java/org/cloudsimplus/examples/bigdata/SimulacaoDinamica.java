@@ -23,6 +23,7 @@ import org.cloudsimplus.listeners.CloudletVmEventInfo;
 import org.cloudsimplus.listeners.EventInfo;
 import org.cloudsimplus.util.Log;
 
+
 /**
  *
  * @author wictor
@@ -36,8 +37,8 @@ public class SimulacaoDinamica implements Runnable{
     protected List<Vm> vmCoreback;
     private String nome;
 
-    private int LENGTH1 = 1000;
-    private int LENGTH2 = 1550;
+    private int LENGTH1 = 3000;
+    private int LENGTH2 = 1500;
 
     private int coletores;
     private int coreback;
@@ -56,8 +57,12 @@ public class SimulacaoDinamica implements Runnable{
     }
 
     public void inicia() throws IOException {
-        Log.setLevel(ch.qos.logback.classic.Level.ERROR);
-        System.out.println("Tamanho da segunda carga : "+LENGTH2);
+//        Log.setLevel(ch.qos.logback.classic.Level.);
+        /*Enables just some level of log messages.
+          Make sure to import org.cloudsimplus.util.Log;*/
+    //    Log.setLevel(ch.qos.logback.classic.Level.INFO);.
+     //    Log.setLevel(Level.INFO);
+        System.out.println("Simulação: "+nome);
         simulation = new CloudSim();
         resultado = new Resultado(coletores, coreback, tempo, nome, LENGTH1, LENGTH2);
         
@@ -86,15 +91,16 @@ public class SimulacaoDinamica implements Runnable{
 //                    .setTitle(brokers.get(1).getName())
 //                    .build();
          
-    final long sartELK = System.currentTimeMillis();
-    resultado.saveElastic(brokers);        
-    final long finishELK = System.currentTimeMillis() - sartELK;
+        final long sartELK = System.currentTimeMillis();
+        resultado.saveElastic(brokers);
+        resultado.createFile(brokers);
+        final long finishELK = System.currentTimeMillis() - sartELK;
         System.out.println("Tempo de ELK: "+miliTotime(finishELK));
-  
+
     }
 
     public void onClockTickListener(EventInfo event) {
- //       resultado.cpuRamSalva(this.vmColetores, this.vmCoreback, event);
+        resultado.cpuRamSalva(this.vmColetores, this.vmCoreback, event);
     }
 
     private Datacenter createDatacenter() {
@@ -114,7 +120,7 @@ public class SimulacaoDinamica implements Runnable{
 
     private List<Cloudlet> geraCarga(int[] cargas, int tempo){
        CreateCloudlet cloud = new CreateCloudlet(300, 300);
-       return  cloud.geraCargaDinamica3(cargas, tempo);
+       return  cloud.geraCargaDinamica2(cargas, tempo);
     }
 
     private void createAndSubmitVmsAndCloudlets(int coletor, int coreback, List<Cloudlet> cloudletList) {
