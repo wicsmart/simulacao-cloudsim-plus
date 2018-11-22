@@ -53,7 +53,6 @@ public class SimulacaoTeste implements Runnable{
         this.tempo = tempo;
         this.cargas = cargas;
         this.nome = nome;
-        this.LENGTH2 = (int) (LENGTH2*lenght2);
     }
 
     public void inicia() throws IOException {
@@ -120,7 +119,7 @@ public class SimulacaoTeste implements Runnable{
 
     private List<Cloudlet> geraCarga(int[] cargas, int tempo){
        CreateCloudlet cloud = new CreateCloudlet(300, 300);
-       return  cloud.geraCargaDinamica4(cargas, tempo);
+       return  cloud.geraCargaDinamica4(cargas, tempo, LENGTH1);
     }
 
     private void createAndSubmitVmsAndCloudlets(int coletor, int coreback, List<Cloudlet> cloudletList) {

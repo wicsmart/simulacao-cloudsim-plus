@@ -31,9 +31,9 @@ public class AppTeste{
         String name =  Integer.toString(minutos)+"min-"+
                 Integer.toString(vm1)+"x"+Integer.toString(vm2)+"-teste";
         
-        name = "testeCarga3-1700";
+        name = "testeCarga2900-1200";
         SimulacaoTeste sim1 = new SimulacaoTeste(vm1,vm2, 60*minutos, CARGA2, name, lenght2);
         sim1.run();
        }
-
+    
 }

@@ -14,7 +14,7 @@ def store_record(elastic_object, record):
             index=INDEX_NAME, doc_type=DOC_TYPE, body=record)
     except Exception as ex:
         print('Error in indexing data')
-        print(str(ex))
+        print(str(ex.message))
 
 
 def store_bulk(elastic_object, bulk):
@@ -51,4 +51,8 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.ERROR)
     es = connect_elasticsearch("127.0.0.1","9200")
 
-    load_file("/home/wictor/resultado/12min-2x2-carga.json")
+    for i in range(1,51):
+        print 'file'+str(i)
+        load_file("/home/wictor/resultado/core"+str(i) + ".json")
+
+   

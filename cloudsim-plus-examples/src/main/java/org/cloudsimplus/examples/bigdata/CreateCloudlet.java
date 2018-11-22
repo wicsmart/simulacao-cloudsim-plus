@@ -113,15 +113,9 @@ public class CreateCloudlet {
         return min + (max - min) * r.nextFloat();
     }
 
-    private double geraSeed(double quantidade) {
-        double delay = 1 / (quantidade / 30);
-        double max = (1.3 * delay);
-        double min = (0.7 * delay);
-        Random r = new Random();
-        return min + (max - min) * r.nextFloat();
-    }
+   
 
-    public List<Cloudlet> geraCargaDinamica3(int[] cargas, int tempo) {
+    public List<Cloudlet> geraCargaDinamica3(int[] cargas, int tempo, int lenght) {
 
         List<Cloudlet> lista = new ArrayList<>();
         double delay = 0.0;
@@ -159,7 +153,7 @@ public class CreateCloudlet {
                 delay = (double) 1 / carga;
             }
 
-            Cloudlet cl = cria(fileSize, id);
+            Cloudlet cl = cria(lenght, id);
             cl.setSubmissionDelay(tempoInicial + delay);
             lista.add(cl);
             id++;
@@ -168,8 +162,17 @@ public class CreateCloudlet {
         System.out.println("Quantidade de cloudlets: " + id);
         return lista;
     }
+     private double geraSeed(double quantidade) {
+       double delay = 1 / (quantidade / 30);
+     //   double delay = 1 /quantidade;
+        double max = (1.3 * delay);
+        double min = (0.7 * delay);
+        Random r = new Random();
+        return min + (max - min) * r.nextFloat();
+    }
+    
 
-    public List<Cloudlet> geraCargaDinamica4(int[] cargas, int tempo) {
+    public List<Cloudlet> geraCargaDinamica4(int[] cargas, int tempo, int lenght) {
 
         List<Cloudlet> lista = new ArrayList<>();
         double delay = 0.0;
@@ -182,7 +185,7 @@ public class CreateCloudlet {
                 delay = 0.85;
             }
 
-            Cloudlet cl = cria(fileSize, id);
+            Cloudlet cl = cria(lenght, id);
             cl.setSubmissionDelay(tempoInicial + delay);
             lista.add(cl);
             id++;
