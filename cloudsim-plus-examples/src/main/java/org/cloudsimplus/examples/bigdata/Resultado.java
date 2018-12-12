@@ -114,7 +114,7 @@ public class Resultado {
         String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
        
         RestClient restClient = RestClient.builder(
-                new HttpHost("localhost", 9200, "http")).build();
+                new HttpHost("localhost", 9220, "http")).build();
     
         List<? extends CloudletSimple> cloudlist1;
         List<? extends CloudletSimple> cloudlist2;
@@ -146,16 +146,16 @@ public class Resultado {
             Map<String, String> params = Collections.emptyMap();
             response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
         }
-//        for (JsonObject js : lista) {
-//            js.addProperty("created", timestamp);
-//            js.addProperty("nome", nome);
-//            js.addProperty("carga_dados", carga);
-//
-//            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
-//            Response response;
-//            Map<String, String> params = Collections.emptyMap();
-//            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
-//        }
+        for (JsonObject js : lista) {
+            js.addProperty("created", timestamp);
+            js.addProperty("nome", nome);
+            js.addProperty("carga_dados", carga);
+
+            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
+            Response response;
+            Map<String, String> params = Collections.emptyMap();
+            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
+        }
         restClient.close();
     }
 

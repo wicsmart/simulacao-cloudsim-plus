@@ -29,6 +29,8 @@ import org.cloudsimplus.util.Log;
  * @author wictor
  */
 public class SimulacaoTeste implements Runnable{
+    private static final String WORKLOAD_FILENAME = "workload-teste.swf";
+    private int maximumNumberOfCloudletsToCreateFromTheWorkloadFile = -1;
 
     private CloudSim simulation;
     private List<DatacenterBroker> brokers;
@@ -73,28 +75,30 @@ public class SimulacaoTeste implements Runnable{
         vmCoreback = new ArrayList<>(coreback);
         cloudletList = new ArrayList<>();
         cloudletList = geraCarga(cargas, tempo);
+        System.out.printf("# Created %d Cloudlets \n", this.cloudletList.size());
+        
         createAndSubmitVmsAndCloudlets(coletores, coreback, cloudletList);
         addSegundaCarga();
      
-        simulation.addOnClockTickListener(this::onClockTickListener);
-        final long startTimeMilliSec = System.currentTimeMillis();
+//        simulation.addOnClockTickListener(this::onClockTickListener);
+//        final long startTimeMilliSec = System.currentTimeMillis();
         simulation.start();
-        final long finishTimeMilliSec = System.currentTimeMillis() - startTimeMilliSec;
-        System.out.println("Tempo de simulacao: "+miliTotime(finishTimeMilliSec));
+//        final long finishTimeMilliSec = System.currentTimeMillis() - startTimeMilliSec;
+//        System.out.println("Tempo de simulacao: "+miliTotime(finishTimeMilliSec));
         
-//        
-//        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
-//                    .setTitle(brokers.get(0).getName())
-//                    .build();
-//        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
-//                    .setTitle(brokers.get(1).getName())
-//                    .build();
+        
+        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
+                    .setTitle(brokers.get(0).getName())
+                    .build();
+        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
+                    .setTitle(brokers.get(1).getName())
+                    .build();
          
-        final long sartELK = System.currentTimeMillis();
-        resultado.saveElastic(brokers);
- //       resultado.createFile(brokers);
-        final long finishELK = System.currentTimeMillis() - sartELK;
-        System.out.println("Tempo de ELK: "+miliTotime(finishELK));
+//        final long sartELK = System.currentTimeMillis();
+//        resultado.saveElastic(brokers);
+//        resultado.createFile(brokers);
+//        final long finishELK = System.currentTimeMillis() - sartELK;
+//        System.out.println("Tempo de ELK: "+miliTotime(finishELK));
 
     }
 
@@ -117,9 +121,14 @@ public class SimulacaoTeste implements Runnable{
         return list;
     }
 
-    private List<Cloudlet> geraCarga(int[] cargas, int tempo){
-       CreateCloudlet cloud = new CreateCloudlet(300, 300);
-       return  cloud.geraCargaDinamica4(cargas, tempo, LENGTH1);
+    private List<Cloudlet> geraCarga(int[] cargas, int tempo) throws IOException{
+//       CreateCloudlet cloud = new CreateCloudlet(300, 300);
+//       return  cloud.geraCargaDinamica4(cargas, tempo, LENGTH1);
+        final String fileName = "workload/swf/"+WORKLOAD_FILENAME;
+        WorkloadFileReader reader = WorkloadFileReader.getInstance(fileName, LENGTH1);
+        reader.setMaxLinesToRead(maximumNumberOfCloudletsToCreateFromTheWorkloadFile);
+       
+        return reader.generateWorkload();
     }
 
     private void createAndSubmitVmsAndCloudlets(int coletor, int coreback, List<Cloudlet> cloudletList) {

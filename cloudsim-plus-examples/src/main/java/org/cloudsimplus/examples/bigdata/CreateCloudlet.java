@@ -35,7 +35,7 @@ public class CreateCloudlet {
         UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 10);
 
         return new CloudletSimple(
-                id, length, numberOfCpuCores)
+                 id, length, numberOfCpuCores)
                 .setFileSize(fileSize)
                 .setOutputSize(outputSize)
                 .setUtilizationModelBw(UtilizationModelFull)
@@ -52,29 +52,13 @@ public class CreateCloudlet {
         }
         return lista;
     }
-
-    public List<Cloudlet> geraCargaDinamica(int[] cargas, int tempo) {
-
-        List<Cloudlet> lista = new ArrayList<>();
-        double delay = 0.0;
-        double tempoInicial = 0.0;
-        int quant = 0;
-        int id = 0;
-        for (int carga : cargas) {
-            delay = (double) 1 / carga;
-            quant = tempo * carga;
-            for (int i = 0; i < quant; i++) {
-                Cloudlet cl = cria(fileSize, id);
-                cl.setSubmissionDelay(tempoInicial + i * delay);
-                lista.add(cl);
-                id++;
-            }
-            tempoInicial += tempo;
-        }
-        System.out.println("Quantidade de cloudlets: " + id);
-        return lista;
+    
+     public Cloudlet geraCargaReal(int id, int length, double submitTime) {
+        Cloudlet cl = cria(length, id);
+        cl.setSubmissionDelay(submitTime);
+        return cl;
     }
-
+     
     public List<Cloudlet> geraCargaDinamica2(int[] cargas, int tempo) {
 
         List<Cloudlet> lista = new ArrayList<>();
@@ -194,5 +178,7 @@ public class CreateCloudlet {
         System.out.println("Quantidade de cloudlets: " + id);
         return lista;
     }
+
+   
 
 }

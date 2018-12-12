@@ -5,6 +5,7 @@ import json
 import time
 import logging
 import sys, os
+import matplotlib
 
 INDEX_NAME, DOC_TYPE = 'bigdata', '_doc'
 
@@ -51,8 +52,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.ERROR)
     es = connect_elasticsearch("127.0.0.1","9200")
 
-    for i in range(1,51):
-        print 'file'+str(i)
-        load_file("/home/wictor/resultado/core"+str(i) + ".json")
+   
+    print 'file35'
+    load_file("/home/wictor/resultadoFull/core200.json")
+
 
    

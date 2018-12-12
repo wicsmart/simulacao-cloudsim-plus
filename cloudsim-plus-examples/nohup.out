@@ -1,0 +1,40 @@
+/usr/local/lib/python2.7/dist-packages/requests/__init__.py:83: RequestsDependencyWarning: Old version of cryptography ([1, 2, 3]) may cause slowdown.
+  warnings.warn(warning, RequestsDependencyWarning)
+Elastisearch Connect
+file1
+Traceback (most recent call last):
+  File "toELK.py", line 56, in <module>
+    load_file("/home/wictor/resultadoFull/core"+str(i) + ".json")
+  File "toELK.py", line 48, in load_file
+    print(store_bulk(es, json.loads(myfile)))
+  File "toELK.py", line 22, in store_bulk
+    print helpers.bulk(elastic_object, bulk, True)
+  File "/usr/local/lib/python2.7/dist-packages/elasticsearch/helpers/__init__.py", line 257, in bulk
+    for ok, item in streaming_bulk(client, actions, *args, **kwargs):
+  File "/usr/local/lib/python2.7/dist-packages/elasticsearch/helpers/__init__.py", line 192, in streaming_bulk
+    raise_on_error, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/elasticsearch/helpers/__init__.py", line 95, in _process_bulk_chunk
+    resp = client.bulk('\n'.join(bulk_actions) + '\n', *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/elasticsearch/client/utils.py", line 76, in _wrapped
+    return func(*args, params=params, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/elasticsearch/client/__init__.py", line 1155, in bulk
+    headers={'content-type': 'application/x-ndjson'})
+  File "/usr/local/lib/python2.7/dist-packages/elasticsearch/transport.py", line 318, in perform_request
+    status, headers_response, data = connection.perform_request(method, url, params, body, headers=headers, ignore=ignore, timeout=timeout)
+  File "/usr/local/lib/python2.7/dist-packages/elasticsearch/connection/http_urllib3.py", line 172, in perform_request
+    response = self.pool.urlopen(method, url, body, retries=Retry(False), headers=request_headers, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python2.7/dist-packages/urllib3/connectionpool.py", line 377, in _make_request
+    httplib_response = conn.getresponse(buffering=True)
+  File "/usr/lib/python2.7/httplib.py", line 1136, in getresponse
+    response.begin()
+  File "/usr/lib/python2.7/httplib.py", line 453, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python2.7/httplib.py", line 409, in _read_status
+    line = self.fp.readline(_MAXLINE + 1)
+  File "/usr/lib/python2.7/socket.py", line 480, in readline
+    data = self._sock.recv(self._rbufsize)
+KeyboardInterrupt
+/usr/local/lib/python2.7/dist-packages/requests/__init__.py:83: RequestsDependencyWarning: Old version of cryptography ([1, 2, 3]) may cause slowdown.
+  warnings.warn(warning, RequestsDependencyWarning)
