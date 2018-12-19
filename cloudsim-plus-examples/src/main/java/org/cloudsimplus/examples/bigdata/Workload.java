@@ -77,7 +77,7 @@ public class Workload {
     /**
      * The workload file to be read.
      */
-    private static final String WORKLOAD_FILENAME = "workload-teste.swf";
+    private static final String WORKLOAD_FILENAME = "workload.swf";
     
     private int maximumNumberOfCloudletsToCreateFromTheWorkloadFile = -1;
 

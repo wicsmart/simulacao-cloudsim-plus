@@ -17,7 +17,7 @@ import org.cloudbus.cloudsim.vms.VmSimple;
  */
 public class CreateVm {
 
-    private final long mips = 10000;
+    private final long mips = 1000;
     private final long storage = 200000; // vm image size (MEGABYTE) 20 Gb
     private final int ram = 16000; // vm memory (MEGABYTE)
     private final long bw = 1000; // vm bandwidth (Megabits/s)

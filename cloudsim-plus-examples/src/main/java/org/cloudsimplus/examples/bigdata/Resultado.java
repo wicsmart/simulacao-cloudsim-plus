@@ -8,6 +8,7 @@ package org.cloudsimplus.examples.bigdata;
 import com.google.gson.JsonObject;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +47,15 @@ public class Resultado {
     private String source = "_source";
     private List<JsonObject> lista = new ArrayList<>();
 
+    public long getTempoInicial() {
+        return tempoInicial;
+    }
+
+    public void setTempoInicial(long tempoInicial) {
+        this.tempoInicial = tempoInicial;
+    }
+    private long tempoInicial;
+
     public Resultado(int coletores, int coreback, int tempo,
             String nome, long length1, long length2) {
         this.coletores = coletores;
@@ -72,11 +82,11 @@ public class Resultado {
             doc.addProperty("_index", "bigdata");
             doc.addProperty("_type", "_doc");
             campo.addProperty("created", timestamp);
-            campo.addProperty("startTimeColetor", segundoTotime(cdl.getExecStartTime()));
+            campo.addProperty("startTimeColetor", secondToDate((long) cdl.getExecStartTime()));
             campo.addProperty("execTimeColetor", cdl.getActualCpuTime());
             for (CloudletSimple cdl2 : cloudlist2) {
                 if (cdl2.getId() == (cdl.getId())) {
-                    campo.addProperty("startTimeCore", segundoTotime(cdl2.getExecStartTime()));
+                    campo.addProperty("startTimeCore", secondToDate((long) cdl2.getExecStartTime()));
                     campo.addProperty("execTimeCore", cdl2.getActualCpuTime());
                 }
             }
@@ -114,7 +124,7 @@ public class Resultado {
         String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
        
         RestClient restClient = RestClient.builder(
-                new HttpHost("localhost", 9220, "http")).build();
+                new HttpHost("localhost", 9200, "http")).build();
     
         List<? extends CloudletSimple> cloudlist1;
         List<? extends CloudletSimple> cloudlist2;
@@ -125,11 +135,11 @@ public class Resultado {
 
             JsonObject campo = new JsonObject();
             campo.addProperty("created", timestamp);
-            campo.addProperty("startTimeColetor", segundoTotime(cdl.getExecStartTime()));
+            campo.addProperty("startTimeColetor", secondToDate((long) cdl.getExecStartTime()));
             campo.addProperty("execTimeColetor", cdl.getActualCpuTime());
             for (CloudletSimple cdl2 : cloudlist2) {
                 if (cdl2.getId() == (cdl.getId())) {
-                    campo.addProperty("startTimeCore", segundoTotime(cdl2.getExecStartTime()));
+                    campo.addProperty("startTimeCore", secondToDate((long) cdl2.getExecStartTime()));
                     campo.addProperty("execTimeCore", cdl2.getActualCpuTime());
                 }
             }
@@ -145,17 +155,18 @@ public class Resultado {
             Response response;
             Map<String, String> params = Collections.emptyMap();
             response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
+          
         }
-        for (JsonObject js : lista) {
-            js.addProperty("created", timestamp);
-            js.addProperty("nome", nome);
-            js.addProperty("carga_dados", carga);
-
-            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
-            Response response;
-            Map<String, String> params = Collections.emptyMap();
-            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
-        }
+//        for (JsonObject js : lista) {
+//            js.addProperty("created", timestamp);
+//            js.addProperty("nome", nome);
+//            js.addProperty("carga_dados", carga);
+//
+//            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
+//            Response response;
+//            Map<String, String> params = Collections.emptyMap();
+//            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
+//        }
         restClient.close();
     }
 
@@ -168,6 +179,14 @@ public class Resultado {
                 TimeUnit.MILLISECONDS.toSeconds(mili) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(mili)),
                 mili - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(mili)));
         return tempo;
+    }
+    
+    public String secondToDate(long seg) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        long mili = this.tempoInicial + (seg * 1000);
+        Date data = new Date(mili);
+        return df.format(data);
+        
     }
 
     public void estatiticas(List<Vm> coletor, List<Vm> coreback, List<DatacenterBroker> brokers) {
@@ -255,4 +274,17 @@ public class Resultado {
                     vm.getRam().getPercentUtilization() * 100, vm.getRam().getAllocatedResource());
         }
     }
+    
+//    public String convertSeconTimeToDate(long second){
+//        
+//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//        Date data = new Date(milisecond);
+//        return df.format(data);
+//    }
+//    
+//    public String convertDateToMili(String  date){
+//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//        Date data = new Date(milisecond);
+//        return df.format(data);
+//    }
 }

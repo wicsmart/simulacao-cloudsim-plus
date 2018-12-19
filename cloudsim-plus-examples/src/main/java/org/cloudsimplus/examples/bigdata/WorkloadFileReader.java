@@ -9,11 +9,15 @@ package org.cloudsimplus.examples.bigdata;
 
 import org.cloudbus.cloudsim.cloudlets.Cloudlet;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
+import static org.cloudbus.cloudsim.cloudlets.Cloudlet.NULL;
 import org.cloudbus.cloudsim.util.*;
 
 public class WorkloadFileReader implements WorkloadReader {
@@ -22,7 +26,9 @@ public class WorkloadFileReader implements WorkloadReader {
 
     private int mips;
     private int id;
-    private double delay;
+    private long delay;
+    private int quantidade;
+    private long inicio;
 
     private final List<Cloudlet> cloudlets;
 
@@ -110,24 +116,42 @@ public class WorkloadFileReader implements WorkloadReader {
         return false;
     }
 
-    private Cloudlet createCloudletFromTraceLine(final String[] array) {
+    private List<Cloudlet> createCloudletFromTraceLine(final String[] array) {
        
         id = Integer.valueOf(array[jobNum].trim());
         
         if(id == IRRELEVANT){
             id = cloudlets.size() + 1;
         }
+        long milisec = Long.valueOf(array[submitTime].trim());
+        delay = convertMiliToSecond(milisec);
         
-        delay =  Double.parseDouble(array[submitTime].trim());
+        quantidade = (int) Double.parseDouble(array[amount].trim());
 
         CreateCloudlet cloud = new CreateCloudlet(300, 300);
-        return cloud.geraCargaReal(id, mips, delay);
+        return cloud.geraCargaReal(mips, delay, quantidade);
     }
 
-    private Cloudlet parseTraceLineAndCreateCloudlet(final String line) {
+     public long convertMiliToSecond(long atual){
+        if (id == 0){
+            this.inicio = atual;
+            return 0; 
+        }
+        
+        return (atual-inicio)/1000;
+    }
+     
+       public String secondToDate(long seg) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        long milli = inicio + (60 *1000);
+        Date data = new Date(milli);
+        return df.format(data);
+        
+    }
+    private List<Cloudlet> parseTraceLineAndCreateCloudlet(final String line) {
         // skip a comment line
         if (line.startsWith(comment)) {
-            return Cloudlet.NULL;
+            return (List<Cloudlet>) NULL;
         }
 
         final String[] sp = line.split("\\s+"); // split the fields based on a space
@@ -143,11 +167,11 @@ public class WorkloadFileReader implements WorkloadReader {
 
         //If all the fields could not be read, don't create the Cloudlet.
         if (index < maxField) {
-            return Cloudlet.NULL;
+            return (List<Cloudlet>) Cloudlet.NULL;
         }
 
-        final Cloudlet c = createCloudletFromTraceLine(fieldArray);
-        return predicate.test(c) ? c : Cloudlet.NULL;
+        return createCloudletFromTraceLine(fieldArray);
+        
     }
 
     /**
@@ -164,12 +188,16 @@ public class WorkloadFileReader implements WorkloadReader {
         int line = 1;
         String readLine;
         while ((readLine = readNextLine(reader, line)) != null) {
-            final Cloudlet c = parseTraceLineAndCreateCloudlet(readLine);
+            final List<Cloudlet> c = parseTraceLineAndCreateCloudlet(readLine);
             if (c != Cloudlet.NULL) {
-                cloudlets.add(c);
+                cloudlets.addAll(c);
                 line++;
             }
         }
+    }
+
+    public long getInicio() {
+        return inicio;
     }
 
     /**

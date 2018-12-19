@@ -29,66 +29,40 @@ public class CreateCloudlet {
         this.outputSize = outputSize;
     }
 
-    public Cloudlet cria(long length, int id) {
+    public Cloudlet cria(long length) {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
         UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 20);
-        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 10);
-
+        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 100);
+      
         return new CloudletSimple(
-                 id, length, numberOfCpuCores)
+                 length, numberOfCpuCores)
                 .setFileSize(fileSize)
                 .setOutputSize(outputSize)
                 .setUtilizationModelBw(UtilizationModelFull)
-                .setUtilizationModelRam(utilizationModelDynamic)
+                .setUtilizationModelRam(ramModel)
                 .setUtilizationModelCpu(UtilizationModelFull);
     }
 
     public List<Cloudlet> criaLista(long length, int quantidade, double delay) {
         List<Cloudlet> lista = new ArrayList<>();
         for (int j = 0; j < quantidade; j++) {
-            Cloudlet cloudlet = cria(length, j);
+            Cloudlet cloudlet = cria(length);
             cloudlet.setSubmissionDelay(0 + j * delay);
             lista.add(cloudlet);
         }
         return lista;
     }
     
-     public Cloudlet geraCargaReal(int id, int length, double submitTime) {
-        Cloudlet cl = cria(length, id);
-        cl.setSubmissionDelay(submitTime);
-        return cl;
-    }
-     
-    public List<Cloudlet> geraCargaDinamica2(int[] cargas, int tempo) {
-
+     public List<Cloudlet> geraCargaReal(int length, double submitTime, int quantidade) {
         List<Cloudlet> lista = new ArrayList<>();
-        double delay;
-        double tempoInicial = 0;
-        int id = 0;
-        double div;
-        while (tempoInicial <= tempo) {
-            div = tempoInicial / 60;
-            if (div <= 1) {
-                delay = geraDelay(1, 100);
-                Cloudlet cl = cria(fileSize, id);
-                cl.setSubmissionDelay(tempoInicial + delay);
-                lista.add(cl);
-                id++;
-                tempoInicial += delay;
-            }
-            if (div > 1) {
-                delay = geraDelay(1, 110);
-                Cloudlet cl = cria(fileSize, id);
-                cl.setSubmissionDelay(tempoInicial + delay);
-                lista.add(cl);
-                id++;
-                tempoInicial += delay;
-            }
+        for(int i = 0; i< quantidade; i++){
+            Cloudlet cl = cria(length);
+            cl.setSubmissionDelay(submitTime);
+            lista.add(cl);
         }
-        System.out.println("Quantidade de cloudlets: " + id);
         return lista;
     }
-
+   
     private double geraDelay(double intervalo, double quantidade) {
         double delay = intervalo / quantidade;
         double max = (1.1 * delay);
@@ -137,7 +111,7 @@ public class CreateCloudlet {
                 delay = (double) 1 / carga;
             }
 
-            Cloudlet cl = cria(lenght, id);
+            Cloudlet cl = cria(lenght);
             cl.setSubmissionDelay(tempoInicial + delay);
             lista.add(cl);
             id++;
@@ -169,7 +143,7 @@ public class CreateCloudlet {
                 delay = 0.85;
             }
 
-            Cloudlet cl = cria(lenght, id);
+            Cloudlet cl = cria(lenght);
             cl.setSubmissionDelay(tempoInicial + delay);
             lista.add(cl);
             id++;
