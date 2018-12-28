@@ -14,7 +14,7 @@ query = {
             "timestamp": {
               "format": "dd-MM-yyyy HH:mm:ss",
               "gte": "09-11-2018 15:00:00",
-              "lte": "09-11-2018 15:05:00"
+              "lte": "09-11-2018 15:02:00"
             }
           }
         }
@@ -52,10 +52,10 @@ if __name__ == '__main__':
 
     logs.parse(result)
 
-    logs.multiplica(1)
+    logs.multiplica(0.5)
 
     logs.somaColuna()
 
     logs.show()  
     logs.estatistica()  
-    # logs.write('workload.swf')
+    logs.write('workload.swf')

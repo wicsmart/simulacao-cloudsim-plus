@@ -40,7 +40,7 @@ public class SimulacaoTeste implements Runnable{
     private String nome;
 
     private int LENGTH1 = 100;
-    private int LENGTH2 = 120;
+    private int LENGTH2 = 150;
 
     private int coletores;
     private int coreback;

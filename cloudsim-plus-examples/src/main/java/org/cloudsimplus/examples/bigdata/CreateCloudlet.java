@@ -31,7 +31,7 @@ public class CreateCloudlet {
 
     public Cloudlet cria(long length) {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
-        UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 20);
+        UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 60);
         UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 100);
       
         return new CloudletSimple(
