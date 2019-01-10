@@ -198,7 +198,7 @@
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
-        <version>6.3.2</version>
+        <version>6.5.4</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -209,13 +209,13 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>6.3.2</version>
+            <version>6.5.4</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-client</artifactId>
-            <version>6.3.2</version>
+            <version>6.5.4</version>
             <type>jar</type>
         </dependency>
         <dependency>

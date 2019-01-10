@@ -128,7 +128,7 @@ public class Simulacao implements Runnable{
 
         CreateCloudlet cloud = new CreateCloudlet(1536, 512);
         
-        newCloudletList = cloud.criaLista(LENGTH1, cloudlets, delay);
+        newCloudletList = (List<Cloudlet>) cloud.criaColetor(LENGTH1);
 
         this.vmCoreback.addAll(newCorebackVms);
         this.brokers.get(1).submitVmList(newCorebackVms);
@@ -152,7 +152,7 @@ public class Simulacao implements Runnable{
 
     private void criaSegundaCarga(int id) {
         CreateCloudlet cloud = new CreateCloudlet(512, 512);
-        Cloudlet cloudlet = cloud.cria(LENGTH2, id);
+        Cloudlet cloudlet = cloud.criaCore(LENGTH2);
         this.cloudletList.add(cloudlet);
         this.brokers.get(1).submitCloudlet(cloudlet);
     }

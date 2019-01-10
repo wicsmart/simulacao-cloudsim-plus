@@ -7,25 +7,35 @@ package org.cloudsimplus.examples.bigdata;
 
 import com.google.gson.JsonObject;
 import java.io.FileWriter;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.apache.http.HttpEntity;
+import java.util.function.BiConsumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.http.HttpHost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.nio.entity.NStringEntity;
 import org.cloudbus.cloudsim.brokers.DatacenterBroker;
 import org.cloudbus.cloudsim.cloudlets.CloudletSimple;
 import org.cloudbus.cloudsim.vms.Vm;
 import org.cloudsimplus.listeners.EventInfo;
-import org.elasticsearch.client.Response;
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.bulk.BackoffPolicy;
+import org.elasticsearch.action.bulk.BulkProcessor;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.ByteSizeUnit;
+import org.elasticsearch.common.unit.ByteSizeValue;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -110,11 +120,11 @@ public class Resultado {
             docs.add(doc);
         }
         System.out.println("init infra");
-   
-        try (FileWriter file = new FileWriter("/home/wictor/resultado/"+nome+".json")) {
+
+        try (FileWriter file = new FileWriter("/home/wictor/resultado/" + nome + ".json")) {
             file.write(docs.toJSONString());
             System.out.println("Successfully Copied JSON Object to File...");
-        } catch (IOException ex){
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -122,16 +132,55 @@ public class Resultado {
 
     public void saveElastic(List<DatacenterBroker> brokers) throws IOException {
         String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
-       
-        RestClient restClient = RestClient.builder(
-                new HttpHost("localhost", 9200, "http")).build();
-    
+     
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost("localhost", 9200, "http")));
+
+        BulkProcessor.Listener listener = new BulkProcessor.Listener() {
+            @Override
+            public void beforeBulk(long executionId, BulkRequest request) {
+                int numberOfActions = request.numberOfActions();
+                System.out.println("Executing bulk" + executionId
+                        + "with" + numberOfActions + "requests");
+            }
+
+            @Override
+            public void afterBulk(long executionId, BulkRequest request,
+                    BulkResponse response) {
+                if (response.hasFailures()) {
+                    System.out.println("Bulk" + executionId + " executed with failures");
+
+                } else {
+                    System.out.println("Bulk" + executionId + "completed in" + response.getTook().getMillis()
+                            + "milliseconds");
+                }
+
+            }
+
+            @Override
+            public void afterBulk(long executionId, BulkRequest request, Throwable failure) {
+                System.out.println("Falhou " + failure);
+            }
+        };
+        BiConsumer<BulkRequest, ActionListener<BulkResponse>> bulkConsumer
+                = (request, bulkListener) -> client.bulkAsync(request, RequestOptions.DEFAULT, bulkListener);
+
+        BulkProcessor bulkProcessor = BulkProcessor.builder(bulkConsumer, listener).build();
+        BulkProcessor.Builder builder = BulkProcessor.builder(bulkConsumer, listener);
+        builder.setBulkActions(500);
+        builder.setBulkSize(new ByteSizeValue(1L, ByteSizeUnit.MB));
+        builder.setConcurrentRequests(0);
+        builder.setFlushInterval(TimeValue.timeValueSeconds(10L));
+        builder.setBackoffPolicy(BackoffPolicy
+                .constantBackoff(TimeValue.timeValueSeconds(1L), 3));
+
         List<? extends CloudletSimple> cloudlist1;
         List<? extends CloudletSimple> cloudlist2;
         cloudlist1 = brokers.get(0).getCloudletFinishedList();
         cloudlist2 = brokers.get(1).getCloudletFinishedList();
         System.out.println("broker 1 : " + cloudlist1.size() + "  broker 2 : " + cloudlist2.size());
-        
+
         for (CloudletSimple cdl : cloudlist1) {
 
             JsonObject campo = new JsonObject();
@@ -151,23 +200,21 @@ public class Resultado {
             campo.addProperty("lengthColetor", length1);
             campo.addProperty("lengthCore", length2);
 
-            HttpEntity entity = new NStringEntity(campo.toString(), ContentType.APPLICATION_JSON);
-            Response response;
-            Map<String, String> params = Collections.emptyMap();
-            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
-          
+            bulkProcessor.add(new IndexRequest("bigdata", "_doc").source(campo.toString(), XContentType.JSON));
+
         }
-      
-        System.out.println("Lista da infra: "+ this.lista.size());
+        System.out.println("Lista da infra: " + this.lista.size());
         for (JsonObject js : this.lista) {
             js.addProperty("created", timestamp);
-            
-            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
-            Response response;
-            Map<String, String> params = Collections.emptyMap();
-            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
+            bulkProcessor.add(new IndexRequest("bigdata", "_doc").source(js.toString(), XContentType.JSON));
         }
-        restClient.close();
+
+        try {
+            boolean terminated = bulkProcessor.awaitClose(60L, TimeUnit.SECONDS);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Resultado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        client.close();
     }
 
     public String segundoTotime(double seg) {
@@ -180,13 +227,13 @@ public class Resultado {
                 mili - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(mili)));
         return tempo;
     }
-    
+
     public String secondToDate(long seg) {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         long mili = this.tempoInicial + (seg * 1000);
         Date data = new Date(mili);
         return df.format(data);
-        
+
     }
 
     public void estatiticas(List<Vm> coletor, List<Vm> coreback, List<DatacenterBroker> brokers) {
@@ -276,17 +323,5 @@ public class Resultado {
                     vm.getRam().getPercentUtilization() * 100, vm.getRam().getAllocatedResource());
         }
     }
-    
-//    public String convertSeconTimeToDate(long second){
-//        
-//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//        Date data = new Date(milisecond);
-//        return df.format(data);
-//    }
-//    
-//    public String convertDateToMili(String  date){
-//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//        Date data = new Date(milisecond);
-//        return df.format(data);
-//    }
+
 }

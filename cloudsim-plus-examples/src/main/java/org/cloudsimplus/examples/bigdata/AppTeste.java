@@ -22,7 +22,7 @@ public class AppTeste{
 
         Log.setLevel(Level.INFO);
         
-        String simu = "timeshared0";
+        String simu = "timeshared2";
         
         double lenght1 = 1;
         double lenght2 = 1;

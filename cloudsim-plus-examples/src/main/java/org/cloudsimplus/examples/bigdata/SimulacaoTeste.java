@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import org.cloudbus.cloudsim.allocationpolicies.VmAllocationPolicySimple;
 import org.cloudbus.cloudsim.brokers.DatacenterBroker;
 import org.cloudbus.cloudsim.brokers.DatacenterBrokerSimple;
@@ -94,8 +95,10 @@ public class SimulacaoTeste implements Runnable{
 //                    .build();
          
         final long sartELK = System.currentTimeMillis();
-//        resultado.createFile(brokers);
-        resultado.saveElastic(brokers);
+       
+            //        resultado.createFile(brokers);
+            resultado.saveElastic(brokers);
+       
         final long finishELK = System.currentTimeMillis() - sartELK;
         System.out.println("Tempo de ELK: "+miliTotime(finishELK));
 

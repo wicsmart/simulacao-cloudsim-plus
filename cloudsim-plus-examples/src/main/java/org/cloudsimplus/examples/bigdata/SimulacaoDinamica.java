@@ -120,7 +120,8 @@ public class SimulacaoDinamica implements Runnable{
 
     private List<Cloudlet> geraCarga(int[] cargas, int tempo){
        CreateCloudlet cloud = new CreateCloudlet(300, 300);
-       return  cloud.geraCargaDinamica2(cargas, tempo);
+ //      return  cloud.geraCargaDinamica2(cargas, tempo);
+    return null;
     }
 
     private void createAndSubmitVmsAndCloudlets(int coletor, int coreback, List<Cloudlet> cloudletList) {
@@ -156,7 +157,7 @@ public class SimulacaoDinamica implements Runnable{
     private void criaSegundaCarga(int id) {
         CreateCloudlet cloud = new CreateCloudlet(512, 512);
         
-        Cloudlet cloudlet = cloud.cria(LENGTH2, id);
+        Cloudlet cloudlet = cloud.criaCore(LENGTH2);
         this.cloudletList.add(cloudlet);
         this.brokers.get(1).submitCloudlet(cloudlet);
     }
