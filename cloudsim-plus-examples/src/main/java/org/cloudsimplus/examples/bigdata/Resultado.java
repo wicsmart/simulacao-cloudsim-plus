@@ -73,6 +73,7 @@ public class Resultado {
         List<? extends CloudletSimple> cloudlist2;
         cloudlist1 = brokers.get(0).getCloudletFinishedList();
         cloudlist2 = brokers.get(1).getCloudletFinishedList();
+        System.out.println("broker 1 : " + cloudlist1.size() + "  broker 2 : " + cloudlist2.size());
         JSONObject obj = new JSONObject();
         JSONArray docs = new JSONArray();
 
@@ -93,7 +94,6 @@ public class Resultado {
             campo.addProperty("duracao", segundoTotime(tempo));
             campo.addProperty("coletor", coletores);
             campo.addProperty("core", coreback);
-            campo.addProperty("carga_dados", carga);
             campo.addProperty("nome", nome);
             campo.addProperty("lengthColetor", length1);
             campo.addProperty("lengthCore", length2);
@@ -106,11 +106,11 @@ public class Resultado {
             doc.addProperty("_type", "_doc");
             js.addProperty("created", timestamp);
             js.addProperty("nome", nome);
-            js.addProperty("carga_dados", carga);
             doc.add("_source", js);
             docs.add(doc);
         }
         System.out.println("init infra");
+   
         try (FileWriter file = new FileWriter("/home/wictor/resultado/"+nome+".json")) {
             file.write(docs.toJSONString());
             System.out.println("Successfully Copied JSON Object to File...");
@@ -130,7 +130,8 @@ public class Resultado {
         List<? extends CloudletSimple> cloudlist2;
         cloudlist1 = brokers.get(0).getCloudletFinishedList();
         cloudlist2 = brokers.get(1).getCloudletFinishedList();
-
+        System.out.println("broker 1 : " + cloudlist1.size() + "  broker 2 : " + cloudlist2.size());
+        
         for (CloudletSimple cdl : cloudlist1) {
 
             JsonObject campo = new JsonObject();
@@ -146,7 +147,6 @@ public class Resultado {
             campo.addProperty("duracao", segundoTotime(tempo));
             campo.addProperty("coletor", coletores);
             campo.addProperty("core", coreback);
-            campo.addProperty("carga_dados", carga);
             campo.addProperty("nome", nome);
             campo.addProperty("lengthColetor", length1);
             campo.addProperty("lengthCore", length2);
@@ -157,16 +157,16 @@ public class Resultado {
             response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
           
         }
-//        for (JsonObject js : lista) {
-//            js.addProperty("created", timestamp);
-//            js.addProperty("nome", nome);
-//            js.addProperty("carga_dados", carga);
-//
-//            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
-//            Response response;
-//            Map<String, String> params = Collections.emptyMap();
-//            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
-//        }
+      
+        System.out.println("Lista da infra: "+ this.lista.size());
+        for (JsonObject js : this.lista) {
+            js.addProperty("created", timestamp);
+            
+            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
+            Response response;
+            Map<String, String> params = Collections.emptyMap();
+            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
+        }
         restClient.close();
     }
 
@@ -221,9 +221,9 @@ public class Resultado {
                     vm, vm.getStartTime(), vm.getStopTime(), vm.getTotalExecutionTime());
         }
         System.out.println("");
-        System.out.println("Media Coletor = " + segundoTotime(mediaColetor)
+        System.out.println("Media Coletor = " + secondToDate((long) mediaColetor)
                 + " seg. " + " Quant: " + coletorFinished.size());
-        System.out.println("Media Core = " + segundoTotime(mediaCore)
+        System.out.println("Media Core = " + secondToDate((long) mediaCore)
                 + " seg. " + " Quant: " + corebackFinished.size());
 
     }
@@ -231,7 +231,7 @@ public class Resultado {
     public void cpuRamSalva(List<Vm> coletor, List<Vm> coreback, EventInfo event) {
 
         JsonObject campo = new JsonObject();
-        campo.addProperty("timeUsage", segundoTotime(event.getTime()));
+        campo.addProperty("timeUsage", secondToDate((long) event.getTime()));
         double cpuCol = 0;
         double ramCol = 0;
         double cpuCore = 0;
@@ -257,7 +257,9 @@ public class Resultado {
         double mediaRamCore = ramCore / coreback.size();
         campo.addProperty("mediaCpuCore", mediaCpuCore);
         campo.addProperty("mediaRamCore", mediaRamCore);
-        lista.add(campo);
+        campo.addProperty("nome", this.nome);
+
+        this.lista.add(campo);
     }
 
     public void cpuRamPrint(List<Vm> coletor, List<Vm> coreback, EventInfo event) {

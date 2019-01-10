@@ -40,7 +40,7 @@ public class SimulacaoTeste implements Runnable{
     private String nome;
 
     private int LENGTH1 = 100;
-    private int LENGTH2 = 150;
+    private int LENGTH2 = 200;
 
     private int coletores;
     private int coreback;
@@ -49,7 +49,7 @@ public class SimulacaoTeste implements Runnable{
     private int tempo;
     private Resultado resultado;
 
-    public SimulacaoTeste(int coletores, int coreback, int tempo, int[] cargas, String nome, double lenght2) {
+    public SimulacaoTeste(int coletores, int coreback, String nome, double lenght1, double lenght2) {
         this.coletores = coletores;
         this.coreback = coreback;
         this.tempo = tempo;
@@ -73,15 +73,13 @@ public class SimulacaoTeste implements Runnable{
         
         vmColetores = new ArrayList<>(coletores);
         vmCoreback = new ArrayList<>(coreback);
-        cloudletList = new ArrayList<>();
-        cloudletList = geraCarga(cargas, tempo);
-        
+        this.cloudletList = new ArrayList<>();
+       
+        createAndSubmitVmsAndCloudlets(coletores, coreback);
         System.out.printf("# Created %d Cloudlets \n", this.cloudletList.size());
-        
-        createAndSubmitVmsAndCloudlets(coletores, coreback, cloudletList);
         addSegundaCarga();
      
-//        simulation.addOnClockTickListener(this::onClockTickListener);
+        simulation.addOnClockTickListener(this::onClockTickListener);
 //        final long startTimeMilliSec = System.currentTimeMillis();
         simulation.start();
 //        final long finishTimeMilliSec = System.currentTimeMillis() - startTimeMilliSec;
@@ -122,9 +120,8 @@ public class SimulacaoTeste implements Runnable{
         return list;
     }
 
-    private List<Cloudlet> geraCarga(int[] cargas, int tempo) throws IOException{
-//       CreateCloudlet cloud = new CreateCloudlet(300, 300);
-//       return  cloud.geraCargaDinamica4(cargas, tempo, LENGTH1);
+    private List<Cloudlet> geraCarga() throws IOException{
+        
         final String fileName = "workload/swf/"+WORKLOAD_FILENAME;
         WorkloadFileReader reader = WorkloadFileReader.getInstance(fileName, LENGTH1);
         reader.setMaxLinesToRead(maximumNumberOfCloudletsToCreateFromTheWorkloadFile);
@@ -133,7 +130,7 @@ public class SimulacaoTeste implements Runnable{
         return reader.generateWorkload();
     }
 
-    private void createAndSubmitVmsAndCloudlets(int coletor, int coreback, List<Cloudlet> cloudletList) {
+    private void createAndSubmitVmsAndCloudlets(int coletor, int coreback) throws IOException {
         List<Vm> newColetorVms = new ArrayList<>(coletor);
         List<Vm> newCorebackVms = new ArrayList<>(coreback);
        
@@ -147,10 +144,11 @@ public class SimulacaoTeste implements Runnable{
         this.brokers.get(1).submitVmList(newCorebackVms);
 
         this.vmColetores.addAll(newColetorVms);
-        this.cloudletList.addAll(cloudletList);
+        
+        this.cloudletList.addAll(geraCarga());
 
         this.brokers.get(0).submitVmList(newColetorVms);
-        this.brokers.get(0).submitCloudletList(cloudletList);
+        this.brokers.get(0).submitCloudletList(this.cloudletList);
     }
 
     public void addSegundaCarga() {
@@ -166,8 +164,8 @@ public class SimulacaoTeste implements Runnable{
     private void criaSegundaCarga(int id) {
         CreateCloudlet cloud = new CreateCloudlet(512, 512);
         
-        Cloudlet cloudlet = cloud.cria(LENGTH2);
-        this.cloudletList.add(cloudlet);
+        Cloudlet cloudlet = cloud.criaCore(LENGTH2);
+      //  this.cloudletList.add(cloudlet);
         this.brokers.get(1).submitCloudlet(cloudlet);
     }
     
