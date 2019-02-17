@@ -7,13 +7,16 @@
  */
 package org.cloudsimplus.examples.bigdata;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.cloudbus.cloudsim.cloudlets.Cloudlet;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
@@ -31,7 +34,7 @@ public class WorkloadFileReader implements WorkloadReader {
     private long inicio;
 
     private final List<Cloudlet> cloudlets;
-
+    private List<Map<Integer, Integer>> workload = new ArrayList<>();
     private int jobNum = 0;
 
     private int submitTime = 1;
@@ -94,6 +97,23 @@ public class WorkloadFileReader implements WorkloadReader {
 
         return cloudlets;
     }
+    
+     public List<Map<Integer, Integer>> generateListWorkLoad() throws IOException {
+        if (cloudlets.isEmpty()) {
+            // create a temp array
+            fieldArray = new String[maxField];
+
+            if (filePath.endsWith(".gz")) {
+                readGZIPFile(reader);
+            } else if (filePath.endsWith(".zip")) {
+                readZipFile(reader);
+            } else {
+                readTextFileLive(reader);
+            }
+        }
+
+        return workload;
+    }
 
     @Override
     public WorkloadReader setPredicate(Predicate<Cloudlet> predicate) {
@@ -130,6 +150,21 @@ public class WorkloadFileReader implements WorkloadReader {
 
         CreateCloudlet cloud = new CreateCloudlet(300, 300);
         return cloud.geraCargaReal(mips, delay, quantidade);
+    }
+    
+     private Map createCloudletFromTraceLineLive(final String[] array) {
+        
+        id = Integer.valueOf(array[jobNum].trim());
+        Map<Integer, Integer> linha = new HashMap<Integer, Integer>();
+        if(id == IRRELEVANT){
+            id = cloudlets.size() + 1;
+        }
+        long milisec = Long.valueOf(array[submitTime].trim());
+        delay = convertMiliToSecond(milisec);
+        
+        quantidade = (int) Double.parseDouble(array[amount].trim());
+        linha.put(id, quantidade);
+        return linha;
     }
 
      public long convertMiliToSecond(long atual){
@@ -173,8 +208,30 @@ public class WorkloadFileReader implements WorkloadReader {
         return createCloudletFromTraceLine(fieldArray);
         
     }
+    
+    
+     private Map<Integer, Integer> parseTraceLineAndCreateCloudletLive(final String line) {
+        // skip a comment line
+        if (line.startsWith(comment)) {
+            return (Map<Integer, Integer>) NULL;
+        }
 
-    /**
+        final String[] sp = line.split("\\s+"); // split the fields based on a space
+        int index = 0; // the index of an array
+
+        // check for each field in the array
+        for (final String elem : sp) {
+            if (!elem.trim().isEmpty()) {
+                fieldArray[index] = elem;
+                index++;
+            }
+        }
+       
+        return createCloudletFromTraceLineLive(fieldArray);
+        
+    }
+
+    /*r
      * Reads traces from a InputStream to a workload reader
      * in any supported format.
      *
@@ -182,17 +239,29 @@ public class WorkloadFileReader implements WorkloadReader {
      * @return <code>true</code> if successful, <code>false</code> otherwise.
      * @throws IOException if the there was any error reading the reader
      */
-    private void readFile(final InputStream inputStream) throws IOException {
+    
+       private void readFile(final InputStream inputStream) throws IOException {
         //the reader is safely closed by the caller
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         int line = 1;
         String readLine;
         while ((readLine = readNextLine(reader, line)) != null) {
-            final List<Cloudlet> c = parseTraceLineAndCreateCloudlet(readLine);
+       final List<Cloudlet> c = parseTraceLineAndCreateCloudlet(readLine);
             if (c != Cloudlet.NULL) {
                 cloudlets.addAll(c);
                 line++;
             }
+        }
+    }
+       
+    private void readFileLive(final InputStream inputStream) throws IOException {
+        //the reader is safely closed by the caller
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        int line = 1;
+      
+        String readLine;
+        while ((readLine = readNextLine(reader, line)) != null) {
+            this.workload.add(parseTraceLineAndCreateCloudletLive(readLine));
         }
     }
 
@@ -209,6 +278,10 @@ public class WorkloadFileReader implements WorkloadReader {
      */
     protected void readTextFile(final InputStream inputStream) throws IOException {
         readFile(inputStream);
+    }
+    
+    protected void readTextFileLive(final InputStream inputStream) throws IOException {
+        readFileLive(inputStream);
     }
 
     /**

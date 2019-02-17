@@ -9,7 +9,9 @@ import ch.qos.logback.classic.Level;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import org.cloudbus.cloudsim.allocationpolicies.VmAllocationPolicySimple;
 import org.cloudbus.cloudsim.brokers.DatacenterBroker;
 import org.cloudbus.cloudsim.brokers.DatacenterBrokerSimple;
@@ -23,12 +25,14 @@ import org.cloudsimplus.listeners.CloudletVmEventInfo;
 import org.cloudsimplus.listeners.EventInfo;
 import org.cloudsimplus.util.Log;
 
-
 /**
  *
  * @author wictor
  */
-public class SimulacaoDinamica implements Runnable{
+public class SimulacaoLive implements Runnable {
+
+    private static final String WORKLOAD_FORMAT = ".swf";
+    private int maximumNumberOfCloudletsToCreateFromTheWorkloadFile = -1;
 
     private CloudSim simulation;
     private List<DatacenterBroker> brokers;
@@ -36,66 +40,70 @@ public class SimulacaoDinamica implements Runnable{
     protected List<Vm> vmColetores;
     protected List<Vm> vmCoreback;
     private String nome;
+    private int countTime = 1;
+    private int index = 0;
 
-    private int LENGTH1 = 3000;
-    private int LENGTH2 = 1500;
+    private int LENGTH1 = 10;
+    private int LENGTH2 = 160;
+    private final int TOTAL = 330;
 
     private int coletores;
     private int coreback;
+    private List<Map<Integer, Integer>> workloadList = new ArrayList<>();
 
-    private int[] cargas;
-    private int tempo;
     private Resultado resultado;
 
-    public SimulacaoDinamica(int coletores, int coreback, int tempo, int[] cargas, String nome, double lenght2) {
+    public SimulacaoLive(int coletores, int coreback, String nome, double lenght1, double lenght2) {
         this.coletores = coletores;
         this.coreback = coreback;
-        this.tempo = tempo;
-        this.cargas = cargas;
         this.nome = nome;
-        this.LENGTH2 = (int) (LENGTH2*lenght2);
     }
 
     public void inicia() throws IOException {
-//        Log.setLevel(ch.qos.logback.classic.Level.);
+     //      Log.setLevel(ch.qos.logback.classic.Level.INFO);
         /*Enables just some level of log messages.
           Make sure to import org.cloudsimplus.util.Log;*/
-    //    Log.setLevel(ch.qos.logback.classic.Level.INFO);.
-     //    Log.setLevel(Level.INFO);
-        System.out.println("Simulação: "+nome);
+        //          Log.setLevel(Level.INFO);
+        //      Log.setLevel(Level.WARN);
+
+        final long start = System.currentTimeMillis();
+
         simulation = new CloudSim();
-        resultado = new Resultado(coletores, coreback, tempo, nome, LENGTH1, LENGTH2);
-        
-        System.out.println("Starting " + getClass().getSimpleName());
+        simulation.terminateAt(200);
+        resultado = new Resultado(coletores, coreback, nome, LENGTH1, LENGTH2);
+
+        System.out.println("Starting " + getClass().getSimpleName() + nome);
         createDatacenter();
         brokers = createBrokers();
-        
+
         vmColetores = new ArrayList<>(coletores);
         vmCoreback = new ArrayList<>(coreback);
-        cloudletList = new ArrayList<>();
-        cloudletList = geraCarga(cargas, tempo);
-        createAndSubmitVmsAndCloudlets(coletores, coreback, cloudletList);
+        this.cloudletList = new ArrayList<>();
+
+        createAndSubmitVmsAndCloudlets(coletores, coreback);
+        System.out.printf("# Created %d Cloudlets for sim %s \n", this.cloudletList.size(), nome);
         addSegundaCarga();
-     
+        simulation.addOnClockTickListener(this::createDynamicCloudlet);
         simulation.addOnClockTickListener(this::onClockTickListener);
-        final long startTimeMilliSec = System.currentTimeMillis();
         simulation.start();
-        final long finishTimeMilliSec = System.currentTimeMillis() - startTimeMilliSec;
-        System.out.println("Tempo de simulacao: "+miliTotime(finishTimeMilliSec));
-        
-//        
-//        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
-//                    .setTitle(brokers.get(0).getName())
-//                    .build();
-//        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
-//                    .setTitle(brokers.get(1).getName())
-//                    .build();
-         
-        final long sartELK = System.currentTimeMillis();
+/*
+        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
+                .setTitle(brokers.get(0).getName())
+                .build();
+        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
+                .setTitle(brokers.get(1).getName())
+                .build();
+        //      resultado.createFile(brokers);
+*/
         resultado.saveElastic(brokers);
-        resultado.createFile(brokers);
-        final long finishELK = System.currentTimeMillis() - sartELK;
-        System.out.println("Tempo de ELK: "+miliTotime(finishELK));
+
+        final long finish = System.currentTimeMillis() - start;
+
+        System.out.println(
+                ConsoleColors.GREEN
+                + "Simulacao " + nome + " done in " + miliTotime(finish)
+                + ConsoleColors.RESET);
+
 
     }
 
@@ -118,30 +126,37 @@ public class SimulacaoDinamica implements Runnable{
         return list;
     }
 
-    private List<Cloudlet> geraCarga(int[] cargas, int tempo){
-       CreateCloudlet cloud = new CreateCloudlet(300, 300);
- //      return  cloud.geraCargaDinamica2(cargas, tempo);
-    return null;
+    private void geraCargaListadeCloudLets() throws IOException {
+
+        final String fileName = "workload/swf/" + nome + WORKLOAD_FORMAT;
+        WorkloadFileReader reader = WorkloadFileReader.getInstance(fileName, LENGTH1);
+        reader.setMaxLinesToRead(maximumNumberOfCloudletsToCreateFromTheWorkloadFile);
+        this.workloadList = reader.generateListWorkLoad();
+        resultado.setTempoInicial(reader.getInicio());
     }
 
-    private void createAndSubmitVmsAndCloudlets(int coletor, int coreback, List<Cloudlet> cloudletList) {
+    private void createAndSubmitVmsAndCloudlets(int coletor, int coreback) throws IOException {
         List<Vm> newColetorVms = new ArrayList<>(coletor);
         List<Vm> newCorebackVms = new ArrayList<>(coreback);
-       
+
         CreateVm col = new CreateVm(8);
         newColetorVms = col.listVm(coletor);
 
         CreateVm core = new CreateVm(8);
         newCorebackVms = core.listVm(coreback);
-       
+
         this.vmCoreback.addAll(newCorebackVms);
         this.brokers.get(1).submitVmList(newCorebackVms);
 
         this.vmColetores.addAll(newColetorVms);
-        this.cloudletList.addAll(cloudletList);
+
+        geraCargaListadeCloudLets();
+
+        this.cloudletList.addAll(cargaInicial(workloadList.get(index)));
+        index += 1;
 
         this.brokers.get(0).submitVmList(newColetorVms);
-        this.brokers.get(0).submitCloudletList(cloudletList);
+        this.brokers.get(0).submitCloudletList(this.cloudletList);
     }
 
     public void addSegundaCarga() {
@@ -156,19 +171,38 @@ public class SimulacaoDinamica implements Runnable{
 
     private void criaSegundaCarga(int id) {
         CreateCloudlet cloud = new CreateCloudlet(512, 512);
-        
         Cloudlet cloudlet = cloud.criaCore(LENGTH2);
         this.cloudletList.add(cloudlet);
         this.brokers.get(1).submitCloudlet(cloudlet);
+
     }
-    
-     public static String miliTotime(long mili) {
+
+    public static String miliTotime(long mili) {
         String tempo = String.format("%02d:%02d:%02d.%03d",
                 TimeUnit.MILLISECONDS.toHours(mili),
                 TimeUnit.MILLISECONDS.toMinutes(mili) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(mili)),
                 TimeUnit.MILLISECONDS.toSeconds(mili) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(mili)),
                 mili - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(mili)));
         return tempo;
+    }
+
+    private void createDynamicCloudlet(EventInfo evt) {
+     
+        if (mudouSegundo((int) evt.getTime())) {
+            countTime = (int) evt.getTime();
+            CreateCloudlet cl = new CreateCloudlet(300, 300);
+            if (index < workloadList.size()) {
+                int quantidade = workloadList.get(index).get(index);
+                System.out.printf("\n# Dynamically creating %d Cloudlets at time %.2f \n", quantidade, evt.getTime());
+                List<Cloudlet> cloudlets = cl.geraCargaLive(LENGTH1, quantidade);
+                this.brokers.get(0).submitCloudletList(cloudlets);
+                for (Cloudlet cloud : cloudlets) {
+                    cloud.addOnFinishListener(this::submitNewVmsAndCloudletsToBroker);
+                }
+                index++;
+            }
+            System.out.println("time: "+evt.getTime());
+        }
     }
 
     @Override
@@ -179,5 +213,34 @@ public class SimulacaoDinamica implements Runnable{
             System.out.println("error");
         }
     }
-    
+
+    private List<Cloudlet> cargaInicial(Map<Integer, Integer> get) {
+        CreateCloudlet cloud = new CreateCloudlet(300, 300);
+        List<Cloudlet> lista = cloud.geraCargaLive(LENGTH1, get.get(0));
+        return lista;
+    }
+
+    private Boolean mudouSegundo(int eventoTime) {
+        if(countTime == eventoTime)
+            return false;
+        else
+            return true;
+    }
+
+    private boolean maior10(int eventoTime) {
+        if ((eventoTime - countTime) < 10) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean maior1(int eventoTime) {
+          if ((eventoTime - countTime) < 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

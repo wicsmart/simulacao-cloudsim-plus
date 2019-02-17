@@ -24,13 +24,13 @@ import org.cloudsimplus.listeners.CloudletVmEventInfo;
 import org.cloudsimplus.listeners.EventInfo;
 import org.cloudsimplus.util.Log;
 
-
 /**
  *
  * @author wictor
  */
-public class SimulacaoTeste implements Runnable{
-    private static final String WORKLOAD_FILENAME = "workload.swf";
+public class SimulacaoTeste implements Runnable {
+
+    private static final String WORKLOAD_FORMAT = ".swf";
     private int maximumNumberOfCloudletsToCreateFromTheWorkloadFile = -1;
 
     private CloudSim simulation;
@@ -41,20 +41,16 @@ public class SimulacaoTeste implements Runnable{
     private String nome;
 
     private int LENGTH1 = 100;
-    private int LENGTH2 = 200;
+    private int LENGTH2 = 1100;
 
     private int coletores;
     private int coreback;
 
-    private int[] cargas;
-    private int tempo;
     private Resultado resultado;
 
     public SimulacaoTeste(int coletores, int coreback, String nome, double lenght1, double lenght2) {
         this.coletores = coletores;
         this.coreback = coreback;
-        this.tempo = tempo;
-        this.cargas = cargas;
         this.nome = nome;
     }
 
@@ -62,45 +58,44 @@ public class SimulacaoTeste implements Runnable{
 //        Log.setLevel(ch.qos.logback.classic.Level.);
         /*Enables just some level of log messages.
           Make sure to import org.cloudsimplus.util.Log;*/
-    //    Log.setLevel(ch.qos.logback.classic.Level.INFO);.
-     //    Log.setLevel(Level.INFO);
-        System.out.println("Simulação: "+nome);
+        //    Log.setLevel(ch.qos.logback.classic.Level.INFO);.
+        //    Log.setLevel(Level.INFO);
+
+        final long start = System.currentTimeMillis();
+
         simulation = new CloudSim();
-        resultado = new Resultado(coletores, coreback, tempo, nome, LENGTH1, LENGTH2);
-        
-        System.out.println("Starting " + getClass().getSimpleName());
+        resultado = new Resultado(coletores, coreback, nome, LENGTH1, LENGTH2);
+
+        System.out.println("Starting " + getClass().getSimpleName() + nome);
         createDatacenter();
         brokers = createBrokers();
-        
+
         vmColetores = new ArrayList<>(coletores);
         vmCoreback = new ArrayList<>(coreback);
         this.cloudletList = new ArrayList<>();
-       
+
         createAndSubmitVmsAndCloudlets(coletores, coreback);
-        System.out.printf("# Created %d Cloudlets \n", this.cloudletList.size());
+        System.out.printf("# Created %d Cloudlets for sim %s \n", this.cloudletList.size(), nome);
         addSegundaCarga();
-     
+
         simulation.addOnClockTickListener(this::onClockTickListener);
-//        final long startTimeMilliSec = System.currentTimeMillis();
         simulation.start();
-//        final long finishTimeMilliSec = System.currentTimeMillis() - startTimeMilliSec;
-//        System.out.println("Tempo de simulacao: "+miliTotime(finishTimeMilliSec));
-        
-        
+
 //        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
 //                    .setTitle(brokers.get(0).getName())
 //                    .build();
 //        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
 //                    .setTitle(brokers.get(1).getName())
-//                    .build();
-         
-        final long sartELK = System.currentTimeMillis();
-       
-            //        resultado.createFile(brokers);
-            resultado.saveElastic(brokers);
-       
-        final long finishELK = System.currentTimeMillis() - sartELK;
-        System.out.println("Tempo de ELK: "+miliTotime(finishELK));
+//                    .build();        
+        //        resultado.createFile(brokers);
+        resultado.saveElastic(brokers);
+
+        final long finish = System.currentTimeMillis() - start;
+
+        System.out.println(
+                ConsoleColors.GREEN
+                + "Simulacao " + nome + " done in " + miliTotime(finish)
+                + ConsoleColors.RESET);
 
     }
 
@@ -123,9 +118,9 @@ public class SimulacaoTeste implements Runnable{
         return list;
     }
 
-    private List<Cloudlet> geraCarga() throws IOException{
-        
-        final String fileName = "workload/swf/"+WORKLOAD_FILENAME;
+    private List<Cloudlet> geraCarga() throws IOException {
+
+        final String fileName = "workload/swf/" + nome + WORKLOAD_FORMAT;
         WorkloadFileReader reader = WorkloadFileReader.getInstance(fileName, LENGTH1);
         reader.setMaxLinesToRead(maximumNumberOfCloudletsToCreateFromTheWorkloadFile);
         List<Cloudlet> cl = reader.generateWorkload();
@@ -136,18 +131,18 @@ public class SimulacaoTeste implements Runnable{
     private void createAndSubmitVmsAndCloudlets(int coletor, int coreback) throws IOException {
         List<Vm> newColetorVms = new ArrayList<>(coletor);
         List<Vm> newCorebackVms = new ArrayList<>(coreback);
-       
+
         CreateVm col = new CreateVm(8);
         newColetorVms = col.listVm(coletor);
 
         CreateVm core = new CreateVm(8);
         newCorebackVms = core.listVm(coreback);
-       
+
         this.vmCoreback.addAll(newCorebackVms);
         this.brokers.get(1).submitVmList(newCorebackVms);
 
         this.vmColetores.addAll(newColetorVms);
-        
+
         this.cloudletList.addAll(geraCarga());
 
         this.brokers.get(0).submitVmList(newColetorVms);
@@ -166,13 +161,13 @@ public class SimulacaoTeste implements Runnable{
 
     private void criaSegundaCarga(int id) {
         CreateCloudlet cloud = new CreateCloudlet(512, 512);
-        
+
         Cloudlet cloudlet = cloud.criaCore(LENGTH2);
-      //  this.cloudletList.add(cloudlet);
+        //  this.cloudletList.add(cloudlet);
         this.brokers.get(1).submitCloudlet(cloudlet);
     }
-    
-     public static String miliTotime(long mili) {
+
+    public static String miliTotime(long mili) {
         String tempo = String.format("%02d:%02d:%02d.%03d",
                 TimeUnit.MILLISECONDS.toHours(mili),
                 TimeUnit.MILLISECONDS.toMinutes(mili) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(mili)),
@@ -189,5 +184,5 @@ public class SimulacaoTeste implements Runnable{
             System.out.println("error");
         }
     }
-    
+
 }

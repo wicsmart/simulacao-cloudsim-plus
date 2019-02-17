@@ -47,8 +47,6 @@ public class Resultado {
 
     private int coletores;
     private int coreback;
-    private int carga;
-    private int tempo;
     private String nome;
     private long length1;
     private long length2;
@@ -66,11 +64,10 @@ public class Resultado {
     }
     private long tempoInicial;
 
-    public Resultado(int coletores, int coreback, int tempo,
+    public Resultado(int coletores, int coreback,
             String nome, long length1, long length2) {
         this.coletores = coletores;
         this.coreback = coreback;
-        this.tempo = tempo;
         this.nome = nome;
         this.length1 = length1;
         this.length2 = length2;
@@ -101,7 +98,6 @@ public class Resultado {
                     campo.addProperty("execTimeCore", cdl2.getActualCpuTime());
                 }
             }
-            campo.addProperty("duracao", segundoTotime(tempo));
             campo.addProperty("coletor", coletores);
             campo.addProperty("core", coreback);
             campo.addProperty("nome", nome);
@@ -119,8 +115,7 @@ public class Resultado {
             doc.add("_source", js);
             docs.add(doc);
         }
-        System.out.println("init infra");
-
+        
         try (FileWriter file = new FileWriter("/home/wictor/resultado/" + nome + ".json")) {
             file.write(docs.toJSONString());
             System.out.println("Successfully Copied JSON Object to File...");
@@ -141,19 +136,19 @@ public class Resultado {
             @Override
             public void beforeBulk(long executionId, BulkRequest request) {
                 int numberOfActions = request.numberOfActions();
-                System.out.println("Executing bulk" + executionId
-                        + "with" + numberOfActions + "requests");
+//                System.out.println("Executing bulk " + executionId
+//                        + " with " + numberOfActions + " requests");
             }
 
             @Override
             public void afterBulk(long executionId, BulkRequest request,
                     BulkResponse response) {
                 if (response.hasFailures()) {
-                    System.out.println("Bulk" + executionId + " executed with failures");
+                    System.out.println("Bulk " + executionId + " executed with failures");
 
                 } else {
-                    System.out.println("Bulk" + executionId + "completed in" + response.getTook().getMillis()
-                            + "milliseconds");
+                    System.out.println("Bulk " + executionId + " completed in " + response.getTook().getMillis()
+                            + " milliseconds");
                 }
 
             }
@@ -179,8 +174,7 @@ public class Resultado {
         List<? extends CloudletSimple> cloudlist2;
         cloudlist1 = brokers.get(0).getCloudletFinishedList();
         cloudlist2 = brokers.get(1).getCloudletFinishedList();
-        System.out.println("broker 1 : " + cloudlist1.size() + "  broker 2 : " + cloudlist2.size());
-
+      
         for (CloudletSimple cdl : cloudlist1) {
 
             JsonObject campo = new JsonObject();
@@ -193,7 +187,6 @@ public class Resultado {
                     campo.addProperty("execTimeCore", cdl2.getActualCpuTime());
                 }
             }
-            campo.addProperty("duracao", segundoTotime(tempo));
             campo.addProperty("coletor", coletores);
             campo.addProperty("core", coreback);
             campo.addProperty("nome", nome);
@@ -203,7 +196,6 @@ public class Resultado {
             bulkProcessor.add(new IndexRequest("bigdata", "_doc").source(campo.toString(), XContentType.JSON));
 
         }
-        System.out.println("Lista da infra: " + this.lista.size());
         for (JsonObject js : this.lista) {
             js.addProperty("created", timestamp);
             bulkProcessor.add(new IndexRequest("bigdata", "_doc").source(js.toString(), XContentType.JSON));
@@ -231,7 +223,7 @@ public class Resultado {
     public String secondToDate(long seg) {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         long mili = this.tempoInicial + (seg * 1000);
-        Date data = new Date(mili);
+        Date data = new Date(mili + TimeUnit.HOURS.toMillis(2));
         return df.format(data);
 
     }

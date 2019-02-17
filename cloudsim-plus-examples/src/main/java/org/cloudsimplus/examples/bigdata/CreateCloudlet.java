@@ -32,7 +32,7 @@ public class CreateCloudlet {
     public Cloudlet criaColetor(long length) {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
         UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 60);
-        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 50);
+        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 70);
       
         return new CloudletSimple(
                  length, numberOfCpuCores)
@@ -46,7 +46,7 @@ public class CreateCloudlet {
      public Cloudlet criaCore(long length) {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
         UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 60);
-        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 50);
+        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 70);
       
         return new CloudletSimple(
                  length, numberOfCpuCores)
@@ -62,6 +62,15 @@ public class CreateCloudlet {
         for(int i = 0; i< quantidade; i++){
             Cloudlet cl = criaColetor(length);
             cl.setSubmissionDelay(submitTime);
+            lista.add(cl);
+        }
+        return lista;
+    }
+     
+      public List<Cloudlet> geraCargaLive(int length, int quantidade) {
+        List<Cloudlet> lista = new ArrayList<>();
+        for(int i = 0; i< quantidade; i++){
+            Cloudlet cl = criaColetor(length);
             lista.add(cl);
         }
         return lista;

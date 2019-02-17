@@ -13,8 +13,8 @@ query = {
           "range": {
             "timestamp": {
               "format": "dd-MM-yyyy HH:mm:ss",
-              "gte": "09-11-2018 15:00:00",
-              "lte": "09-11-2018 15:02:00"
+              "gte": "07-11-2018 12:00:01",
+              "lte": "07-11-2018 12:03:00"
             }
           }
         }
@@ -37,25 +37,16 @@ query = {
     }
   }
 }
-
-
 if __name__ == '__main__':
-
     logging.basicConfig(level=logging.ERROR)
-
     elastic = Elastic("127.0.0.1","9200")
     elastic.connect()
-
     result = elastic.searchAnalyse('graylog*', 'message', query)
-
     logs = ParseLog()
-
     logs.parse(result)
-
-    logs.multiplica(0.5)
-
+    logs.multiplica(1)
     logs.somaColuna()
-
     logs.show()  
     logs.estatistica()  
-    logs.write('workload.swf')
+
+    logs.write('live3.swf')
