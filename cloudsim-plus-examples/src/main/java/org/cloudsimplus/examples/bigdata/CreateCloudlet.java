@@ -33,7 +33,7 @@ public class CreateCloudlet {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
         UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 60);
         UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 70);
-      
+              
         return new CloudletSimple(
                  length, numberOfCpuCores)
                 .setFileSize(fileSize)
@@ -47,7 +47,7 @@ public class CreateCloudlet {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
         UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 60);
         UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 70);
-      
+        
         return new CloudletSimple(
                  length, numberOfCpuCores)
                 .setFileSize(fileSize)

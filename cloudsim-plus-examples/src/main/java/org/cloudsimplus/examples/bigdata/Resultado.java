@@ -122,7 +122,6 @@ public class Resultado {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-
     }
 
     public void saveElastic(List<DatacenterBroker> brokers) throws IOException {

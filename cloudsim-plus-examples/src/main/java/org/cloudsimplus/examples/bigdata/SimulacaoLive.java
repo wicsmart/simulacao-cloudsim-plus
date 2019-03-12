@@ -44,23 +44,24 @@ public class SimulacaoLive implements Runnable {
     private int index = 0;
 
     private int LENGTH1 = 10;
-    private int LENGTH2 = 160;
+    private int LENGTH2 = 70;
     private final int TOTAL = 330;
-
+    private int tempo;
     private int coletores;
     private int coreback;
     private List<Map<Integer, Integer>> workloadList = new ArrayList<>();
 
     private Resultado resultado;
 
-    public SimulacaoLive(int coletores, int coreback, String nome, double lenght1, double lenght2) {
+    public SimulacaoLive(int coletores, int coreback, String nome, double lenght1, double lenght2, int tempo) {
         this.coletores = coletores;
         this.coreback = coreback;
         this.nome = nome;
+        this.tempo = tempo;
     }
 
     public void inicia() throws IOException {
-     //      Log.setLevel(ch.qos.logback.classic.Level.INFO);
+      //    Log.setLevel(ch.qos.logback.classic.Level.INFO);
         /*Enables just some level of log messages.
           Make sure to import org.cloudsimplus.util.Log;*/
         //          Log.setLevel(Level.INFO);
@@ -69,7 +70,7 @@ public class SimulacaoLive implements Runnable {
         final long start = System.currentTimeMillis();
 
         simulation = new CloudSim();
-        simulation.terminateAt(200);
+        simulation.terminateAt(tempo);
         resultado = new Resultado(coletores, coreback, nome, LENGTH1, LENGTH2);
 
         System.out.println("Starting " + getClass().getSimpleName() + nome);
