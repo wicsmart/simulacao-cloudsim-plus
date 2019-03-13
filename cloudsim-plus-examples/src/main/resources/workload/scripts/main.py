@@ -13,8 +13,8 @@ query = {
           "range": {
             "timestamp": {
               "format": "dd-MM-yyyy HH:mm:ss",
-              "gte": "07-11-2018 10:00:01",
-              "lte": "07-11-2018 12:00:00"
+              "gte": "07-11-2018 20:00:01",
+              "lte": "07-11-2018 22:00:00"
             }
           }
         }
@@ -49,4 +49,4 @@ if __name__ == '__main__':
     logs.show()  
     logs.estatistica()  
 
-    logs.write('one10.swf')
+    logs.write('um20.swf')
