@@ -42,7 +42,7 @@ public class SimulacaoTeste implements Runnable {
     
  //   for 0.1 para cada segundo
     private int LENGTH1 = 100;
-    private int LENGTH2 = 1200;
+    private int LENGTH2 = 1100;
 
     private int coletores;
     private int coreback;
