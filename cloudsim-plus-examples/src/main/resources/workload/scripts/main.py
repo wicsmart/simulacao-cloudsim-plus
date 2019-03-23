@@ -44,9 +44,9 @@ if __name__ == '__main__':
     result = elastic.searchAnalyse('graylog*', 'message', query)
     logs = ParseLog()
     logs.parse(result)
-    logs.multiplica(0.11)
+    logs.multiplica(0.3)
     logs.somaColuna()
     logs.show()  
     logs.estatistica()  
 
-    logs.write('teste16.swf')
+    logs.write('tres16.swf')

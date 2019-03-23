@@ -188,7 +188,7 @@ public class Resultado {
             }
             campo.addProperty("coletor", coletores);
             campo.addProperty("core", coreback);
-            campo.addProperty("nome", nome + Integer.toString(coletores)+ Integer.toString(coreback));
+            campo.addProperty("nome", nome +"vms"+ Integer.toString(coletores)+ Integer.toString(coreback));
             campo.addProperty("lengthColetor", length1);
             campo.addProperty("lengthCore", length2);
 
@@ -266,7 +266,7 @@ public class Resultado {
 
     }
 
-    public void cpuRamSalva(List<Vm> coletor, List<Vm> coreback, EventInfo event) {
+    public void cpuRamSalva(List<Vm> coletor, List<Vm> corebackvm, EventInfo event) {
 
         JsonObject campo = new JsonObject();
         campo.addProperty("timeUsage", secondToDate((long) event.getTime()));
@@ -285,17 +285,17 @@ public class Resultado {
         double mediaRamColetor = ramCol / coletor.size();
         campo.addProperty("mediaCpuColetor", mediaCpuColetor);
         campo.addProperty("mediaRamColetor", mediaRamColetor);
-        for (Vm vm : coreback) {
+        for (Vm vm : corebackvm) {
             cpuCore += vm.getCpuPercentUsage() * 100.0;
             ramCore += vm.getRam().getPercentUtilization() * 100;
             campo.addProperty("coreCpuVM" + vm.getId(), vm.getCpuPercentUsage() * 100.0);
             campo.addProperty("coreRamVM" + vm.getId(), vm.getRam().getPercentUtilization() * 100);
         }
-        double mediaCpuCore = cpuCore / coreback.size();
-        double mediaRamCore = ramCore / coreback.size();
+        double mediaCpuCore = cpuCore / corebackvm.size();
+        double mediaRamCore = ramCore / corebackvm.size();
         campo.addProperty("mediaCpuCore", mediaCpuCore);
         campo.addProperty("mediaRamCore", mediaRamCore);
-        campo.addProperty("nome", this.nome);
+        campo.addProperty("nome", nome +"vms"+ Integer.toString(coletores)+ Integer.toString(coreback));
 
         this.lista.add(campo);
     }
