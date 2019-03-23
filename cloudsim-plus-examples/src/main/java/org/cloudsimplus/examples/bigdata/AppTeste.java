@@ -23,19 +23,19 @@ public class AppTeste {
        
        if (args.length < 3) {
             // adicionar log
-            System.err.println("Inserir tres periodos");
+            System.err.println("Inserir vm1 vm2 nome1 ...");
             System.exit(-1);
         }
-   
+        
         double lenght1 = 1;
         double lenght2 = 1;
-        int vm1 = 2;
-        int vm2 = 2;
-        
-        List<SimulacaoTeste> list = new ArrayList<>(args.length);
+        int vm1 = Integer.parseInt(args[0]);
+        int vm2 = Integer.parseInt(args[1]);
+                
+        List<SimulacaoTeste> list = new ArrayList<>(args.length-2);
          
-        for(String nome :  args){
-           list.add(new SimulacaoTeste(vm1, vm2, nome, lenght1, lenght2));
+        for(int i= 2; i < args.length; i++){
+           list.add(new SimulacaoTeste(vm1, vm2, args[i], lenght1, lenght2));
         }    
       
         list.parallelStream().forEach(SimulacaoTeste::run);

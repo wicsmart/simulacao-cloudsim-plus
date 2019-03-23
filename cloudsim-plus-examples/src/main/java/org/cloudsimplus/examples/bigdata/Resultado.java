@@ -111,7 +111,7 @@ public class Resultado {
             doc.addProperty("_index", "bigdata");
             doc.addProperty("_type", "_doc");
             js.addProperty("created", timestamp);
-            js.addProperty("nome", nome);
+            js.addProperty("nome", nome + Integer.toString(coletores)+ Integer.toString(coreback));
             doc.add("_source", js);
             docs.add(doc);
         }
@@ -129,7 +129,7 @@ public class Resultado {
      
         RestHighLevelClient client = new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost("localhost", 9220, "http")));
+                        new HttpHost("localhost", 9200, "http")));
 
         BulkProcessor.Listener listener = new BulkProcessor.Listener() {
             @Override
@@ -188,7 +188,7 @@ public class Resultado {
             }
             campo.addProperty("coletor", coletores);
             campo.addProperty("core", coreback);
-            campo.addProperty("nome", nome);
+            campo.addProperty("nome", nome + Integer.toString(coletores)+ Integer.toString(coreback));
             campo.addProperty("lengthColetor", length1);
             campo.addProperty("lengthCore", length2);
 
