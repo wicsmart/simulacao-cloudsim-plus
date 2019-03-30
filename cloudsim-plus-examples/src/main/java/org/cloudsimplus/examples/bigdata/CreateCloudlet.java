@@ -32,7 +32,7 @@ public class CreateCloudlet {
     public Cloudlet criaColetor(long length) {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
         UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 60);
-        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 70);
+        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 250);
               
         return new CloudletSimple(
                  length, numberOfCpuCores)
@@ -46,7 +46,7 @@ public class CreateCloudlet {
      public Cloudlet criaCore(long length) {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
         UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 60);
-        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 70);
+        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 300);
         
         return new CloudletSimple(
                  length, numberOfCpuCores)

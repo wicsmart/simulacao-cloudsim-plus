@@ -39,6 +39,7 @@ public class SimulacaoTeste implements Runnable {
     protected List<Vm> vmColetores;
     protected List<Vm> vmCoreback;
     private String nome;
+    private String file;
     
  //   for 0.1 para cada segundo
     private int LENGTH1 = 100;
@@ -46,13 +47,19 @@ public class SimulacaoTeste implements Runnable {
 
     private int coletores;
     private int coreback;
+    private AWSVM configCore;
+    private AWSVM configColetor;
 
     private Resultado resultado;
 
-    public SimulacaoTeste(int coletores, int coreback, String nome, double lenght1, double lenght2) {
+    public SimulacaoTeste(AWSVM configColertor, AWSVM configCore, int coletores, int coreback,
+            String nome, String file) {
         this.coletores = coletores;
         this.coreback = coreback;
         this.nome = nome;
+        this.file = file;
+        this.configColetor = configColertor;
+        this.configCore = configCore;
     }
 
     public void inicia() throws IOException {
@@ -65,7 +72,7 @@ public class SimulacaoTeste implements Runnable {
         final long start = System.currentTimeMillis();
 
         simulation = new CloudSim();
-        resultado = new Resultado(coletores, coreback, nome, LENGTH1, LENGTH2);
+        resultado = new Resultado(coletores, coreback, nome);
 
         System.out.println("Starting " + getClass().getSimpleName() + nome);
         createDatacenter();
@@ -121,7 +128,7 @@ public class SimulacaoTeste implements Runnable {
 
     private List<Cloudlet> geraCarga() throws IOException {
 
-        final String fileName = "workload/swf/" + nome + WORKLOAD_FORMAT;
+        final String fileName = "workload/swf/" + file + WORKLOAD_FORMAT;
         WorkloadFileReader reader = WorkloadFileReader.getInstance(fileName, LENGTH1);
         reader.setMaxLinesToRead(maximumNumberOfCloudletsToCreateFromTheWorkloadFile);
         List<Cloudlet> cl = reader.generateWorkload();
@@ -133,10 +140,10 @@ public class SimulacaoTeste implements Runnable {
         List<Vm> newColetorVms = new ArrayList<>(coletor);
         List<Vm> newCorebackVms = new ArrayList<>(coreback);
 
-        CreateVm col = new CreateVm(8);
+        CreateVm col = new CreateVm(configColetor);
         newColetorVms = col.listVm(coletor);
 
-        CreateVm core = new CreateVm(8);
+        CreateVm core = new CreateVm(configCore);
         newCorebackVms = core.listVm(coreback);
 
         this.vmCoreback.addAll(newCorebackVms);

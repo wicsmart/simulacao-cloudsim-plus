@@ -3,7 +3,7 @@ from pandas.io.json import json_normalize
 import json
 import sys, os
 os.chdir(os.path.dirname(__file__))
-_path = '/home/wictor/simulacao/cloudsim-plus-examples/src/main/resources/workload/swf/'
+_path = '/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/src/main/resources/workload/swf/'
 
 class ParseLog:
 

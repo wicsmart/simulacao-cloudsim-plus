@@ -13,8 +13,8 @@ query = {
           "range": {
             "timestamp": {
               "format": "dd-MM-yyyy HH:mm:ss",
-              "gte": "07-11-2018 16:00:01",
-              "lte": "07-11-2018 18:00:00"
+              "gte": "07-11-2018 10:25:01",
+              "lte": "07-11-2018 11:45:00"
             }
           }
         }
@@ -44,9 +44,9 @@ if __name__ == '__main__':
     result = elastic.searchAnalyse('graylog*', 'message', query)
     logs = ParseLog()
     logs.parse(result)
-    logs.multiplica(0.3)
+    logs.multiplica(0.125)
     logs.somaColuna()
     logs.show()  
     logs.estatistica()  
 
-    logs.write('tres16.swf')
+    logs.write('teco.swf')
