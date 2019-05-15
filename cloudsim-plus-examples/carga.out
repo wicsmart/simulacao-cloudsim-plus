@@ -1,0 +1,20 @@
+18:58:08,020 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+18:58:08,024 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+18:58:08,027 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+18:58:08,028 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+18:58:08,028 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+18:58:08,028 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+18:58:08,093 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+18:58:08,450 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+18:58:08,452 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+18:58:08,460 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+18:58:08,504 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+18:58:08,559 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+18:58:08,559 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+18:58:08,560 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+18:58:08,564 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec4xc44xcargaVinte
+Starting SimulacaoTestec4xc44xcargaVinte
+# Created 99566 Cloudlets for sim c4xc44xcargaVinte 
+# Created 99566 Cloudlets for sim c4xc44xcargaVinte 

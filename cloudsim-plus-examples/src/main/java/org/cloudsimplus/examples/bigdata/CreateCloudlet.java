@@ -32,7 +32,7 @@ public class CreateCloudlet {
     public Cloudlet criaColetor(long length) {
         UtilizationModel UtilizationModelFull = new UtilizationModelFull();
         UtilizationModel utilizationModelDynamic = new UtilizationModelDynamic(1.0 / 60);
-        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 250);
+        UtilizationModelDynamic ramModel = new UtilizationModelDynamic(UtilizationModel.Unit.ABSOLUTE, 500);
               
         return new CloudletSimple(
                  length, numberOfCpuCores)

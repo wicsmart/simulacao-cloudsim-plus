@@ -8,7 +8,6 @@ package org.cloudsimplus.examples.bigdata;
 import java.util.ArrayList;
 import java.util.List;
 import org.cloudbus.cloudsim.schedulers.cloudlet.CloudletSchedulerTimeShared;
-import org.cloudbus.cloudsim.schedulers.cloudlet.CloudletSchedulerSpaceShared;
 import org.cloudbus.cloudsim.vms.Vm;
 import org.cloudbus.cloudsim.vms.VmSimple;
 
@@ -26,7 +25,7 @@ public class CreateVm {
 
     public CreateVm(AWSVM config) {
         this.pesNumber = config.getPes();
-        this.ram = config.getMemoria(); 
+        this.ram = config.getMemoria();
     }
 
     public List<Vm> listVm(int quantidade) {
@@ -46,4 +45,24 @@ public class CreateVm {
                 .setSize(storage)
                 .setCloudletScheduler(new CloudletSchedulerTimeShared());
     }
+
+    public List<Vm> listaMista(AWSVM v0, AWSVM v1) {
+        List<Vm> lista = new ArrayList<>();
+
+        this.pesNumber = v0.getPes();
+        this.ram = v0.getMemoria();
+
+        Vm vm0 = criaVm(1);
+        vm0.getUtilizationHistory().enable();
+        lista.add(vm0);
+
+        this.pesNumber = v1.getPes();
+        this.ram = v1.getMemoria();
+
+        Vm vm1 = criaVm(1);
+        vm1.getUtilizationHistory().enable();
+        lista.add(vm1);
+        return lista;
+    }
+
 }

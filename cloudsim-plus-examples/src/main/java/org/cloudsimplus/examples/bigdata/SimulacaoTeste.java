@@ -42,13 +42,14 @@ public class SimulacaoTeste implements Runnable {
     private String file;
     
  //   for 0.1 para cada segundo
-    private int LENGTH1 = 100;
-    private int LENGTH2 = 1100;
+    private int LENGTH1 = 250;
+    private int LENGTH2 = 700;
 
     private int coletores;
     private int coreback;
-    private AWSVM configCore;
     private AWSVM configColetor;
+    private AWSVM configCore;
+
 
     private Resultado resultado;
 
@@ -89,12 +90,12 @@ public class SimulacaoTeste implements Runnable {
         simulation.addOnClockTickListener(this::onClockTickListener);
         simulation.start();
 
-//        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
-//                    .setTitle(brokers.get(0).getName())
-//                    .build();
-//        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
-//                    .setTitle(brokers.get(1).getName())
-//                    .build();        
+        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
+                    .setTitle(brokers.get(0).getName())
+                    .build();
+        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
+                    .setTitle(brokers.get(1).getName())
+                    .build();        
         //        resultado.createFile(brokers);
         resultado.saveElastic(brokers);
 
@@ -112,7 +113,7 @@ public class SimulacaoTeste implements Runnable {
     }
 
     private Datacenter createDatacenter() {
-        CreateHost hosts = new CreateHost(10, 8);
+        CreateHost hosts = new CreateHost(10, 36);
         Datacenter dc0 = new DatacenterSimple(simulation, hosts.listHosts(), new VmAllocationPolicySimple());
         dc0.setSchedulingInterval(1);
         return dc0;
@@ -144,7 +145,18 @@ public class SimulacaoTeste implements Runnable {
         newColetorVms = col.listVm(coletor);
 
         CreateVm core = new CreateVm(configCore);
-        newCorebackVms = core.listVm(coreback);
+ //       newCorebackVms = core.listVm(coreback);
+
+        AWSVM c42xlarge = new AWSVM("c42xlarge", 8, (int) (15 * 1024));
+        AWSVM c44xlarge = new AWSVM("c44xlarge", 16, (int) (30 * 1024));
+    
+        newCorebackVms = core.listaMista(c42xlarge, c44xlarge);
+        
+        System.out.println("core0 cpu: " + newCorebackVms.get(0).getProcessor().getCapacity());
+        System.out.println("core0 ram : " + newCorebackVms.get(0).getRam().getCapacity());
+        System.out.println("core1: " + newCorebackVms.get(1).getProcessor().getCapacity());
+        System.out.println("core2 ram : " + newCorebackVms.get(1).getRam().getCapacity());
+        
 
         this.vmCoreback.addAll(newCorebackVms);
         this.brokers.get(1).submitVmList(newCorebackVms);
@@ -155,7 +167,8 @@ public class SimulacaoTeste implements Runnable {
 
         this.brokers.get(0).submitVmList(newColetorVms);
         this.brokers.get(0).submitCloudletList(this.cloudletList);
-    }
+
+        }
 
     public void addSegundaCarga() {
         for (Cloudlet cloud : this.cloudletList) {
