@@ -90,12 +90,12 @@ public class SimulacaoTeste implements Runnable {
         simulation.addOnClockTickListener(this::onClockTickListener);
         simulation.start();
 
-        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
-                    .setTitle(brokers.get(0).getName())
-                    .build();
-        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
-                    .setTitle(brokers.get(1).getName())
-                    .build();        
+//        new CloudletsTableBuilder(brokers.get(0).getCloudletFinishedList())
+//                    .setTitle(brokers.get(0).getName())
+//                    .build();
+//        new CloudletsTableBuilder(brokers.get(1).getCloudletFinishedList())
+//                    .setTitle(brokers.get(1).getName())
+//                    .build();        
         //        resultado.createFile(brokers);
         resultado.saveElastic(brokers);
 
@@ -142,25 +142,32 @@ public class SimulacaoTeste implements Runnable {
         List<Vm> newCorebackVms = new ArrayList<>(coreback);
 
         CreateVm col = new CreateVm(configColetor);
-        newColetorVms = col.listVm(coletor);
-
-        CreateVm core = new CreateVm(configCore);
- //       newCorebackVms = core.listVm(coreback);
+ //       newColetorVms = col.listVm(coletor);
+ 
+ //************ codigo para adicionar vms diferentes no coletor***************
 
         AWSVM c42xlarge = new AWSVM("c42xlarge", 8, (int) (15 * 1024));
+        AWSVM c4xlarge = new AWSVM("c4xlarge", 4, (int) (7.75 * 1024));
+        
+        newColetorVms = col.listaMista(c4xlarge, c4xlarge, coletor);
+//******************************************************************************
+
+        CreateVm core = new CreateVm(configCore);
+ //     newCorebackVms = core.listVm(coreback);
+ 
+//*************** codigo para adicionar vms diferentes no core***************
         AWSVM c44xlarge = new AWSVM("c44xlarge", 16, (int) (30 * 1024));
     
-        newCorebackVms = core.listaMista(c42xlarge, c44xlarge);
-        
-        System.out.println("core0 cpu: " + newCorebackVms.get(0).getProcessor().getCapacity());
-        System.out.println("core0 ram : " + newCorebackVms.get(0).getRam().getCapacity());
-        System.out.println("core1: " + newCorebackVms.get(1).getProcessor().getCapacity());
-        System.out.println("core2 ram : " + newCorebackVms.get(1).getRam().getCapacity());
-        
+        newCorebackVms = core.listaMista(c42xlarge, c44xlarge, coreback);       
+//******************************************************************************
+
 
         this.vmCoreback.addAll(newCorebackVms);
         this.brokers.get(1).submitVmList(newCorebackVms);
-
+        
+  //      this.brokers.get(1).submitVm(newCorebackVms.get(1));
+  //      this.brokers.get(1).submitVm(newCorebackVms.get(0));
+//
         this.vmColetores.addAll(newColetorVms);
 
         this.cloudletList.addAll(geraCarga());

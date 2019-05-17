@@ -27,4 +27,9 @@ class Elastic:
         res =  self.es.search(index='graylog*', doc_type='message', body=query)
         print("%d documents found" % res['hits']['total'])
         return res['aggregations']['serie']['buckets']
+
+    def searchResult(self, index, doc_type, query):
+        res =  self.es.search(index=index, doc_type=doc_type, body=query)
+        print("%d documents found" % res['hits']['total'])
+        return res['aggregations']
         

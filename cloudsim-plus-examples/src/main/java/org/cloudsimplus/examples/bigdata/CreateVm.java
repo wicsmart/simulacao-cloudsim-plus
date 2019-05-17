@@ -27,8 +27,32 @@ public class CreateVm {
         this.pesNumber = config.getPes();
         this.ram = config.getMemoria();
     }
-
+/*
     public List<Vm> listVm(int quantidade) {
+        List<Vm> lista = new ArrayList<>();
+        for (int i = 0; i < quantidade; i++) {
+            if(i!=0){
+            Vm vm = new VmSimple(i, mips, pesNumber)
+                .setRam(ram)
+                .setBw(bw)
+                .setSize(storage)
+                .setCloudletScheduler(new CloudletSchedulerTimeShared());
+            vm.getUtilizationHistory().enable();
+            lista.add(vm);
+            }else{
+                 Vm vm = new VmSimple(i, mips, pesNumber*2)
+                .setRam(ram*2)
+                .setBw(bw)
+                .setSize(storage)
+                .setCloudletScheduler(new CloudletSchedulerTimeShared());
+            vm.getUtilizationHistory().enable();
+            lista.add(vm);
+            }
+        }
+        return lista;
+    }
+  */
+     public List<Vm> listVm(int quantidade) {
         List<Vm> lista = new ArrayList<>();
         for (int i = 0; i < quantidade; i++) {
             Vm vm = criaVm(i);
@@ -46,22 +70,28 @@ public class CreateVm {
                 .setCloudletScheduler(new CloudletSchedulerTimeShared());
     }
 
-    public List<Vm> listaMista(AWSVM v0, AWSVM v1) {
+    public List<Vm> listaMista(AWSVM v0, AWSVM v1, int quantidade) {
         List<Vm> lista = new ArrayList<>();
 
-        this.pesNumber = v0.getPes();
-        this.ram = v0.getMemoria();
-
-        Vm vm0 = criaVm(1);
-        vm0.getUtilizationHistory().enable();
-        lista.add(vm0);
-
-        this.pesNumber = v1.getPes();
-        this.ram = v1.getMemoria();
-
-        Vm vm1 = criaVm(1);
-        vm1.getUtilizationHistory().enable();
-        lista.add(vm1);
+        for (int i = 0; i < quantidade; i++) {
+            if(i!=0){
+            Vm vm = new VmSimple(i, mips, v0.getPes())
+                .setRam(v0.getMemoria())
+                .setBw(bw)
+                .setSize(storage)
+                .setCloudletScheduler(new CloudletSchedulerTimeShared());
+            vm.getUtilizationHistory().enable();
+            lista.add(vm);
+            }else{
+                 Vm vm = new VmSimple(i, mips, v1.getPes())
+                .setRam(v1.getMemoria())
+                .setBw(bw)
+                .setSize(storage)
+                .setCloudletScheduler(new CloudletSchedulerTimeShared());
+            vm.getUtilizationHistory().enable();
+            lista.add(vm);
+            }
+        }
         return lista;
     }
 

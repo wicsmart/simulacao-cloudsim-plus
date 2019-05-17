@@ -14,7 +14,7 @@ query = {
             "timestamp": {
               "format": "dd-MM-yyyy HH:mm:ss",
               "gte": "07-11-2018 18:00:01",
-              "lte": "07-11-2018 20:00:00"
+              "lte": "07-11-2018 18:02:00"
             }
           }
         }
@@ -44,9 +44,9 @@ if __name__ == '__main__':
     result = elastic.searchAnalyse('graylog*', 'message', query)
     logs = ParseLog()
     logs.parse(result)
-    logs.multiplica(0.1)
+    logs.multiplica(1)
     logs.somaColuna()
     logs.show()  
-    logs.estatistica()  
+   # logs.estatistica()  
 
-    logs.write('um18.swf')
+    #logs.write('teste.swf')
