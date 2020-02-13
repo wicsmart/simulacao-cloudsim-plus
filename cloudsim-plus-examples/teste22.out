@@ -1,0 +1,45 @@
+22:18:21,177 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+22:18:21,184 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+22:18:21,185 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+22:18:21,187 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+22:18:21,187 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+22:18:21,187 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+22:18:21,226 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+22:18:21,449 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+22:18:21,449 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+22:18:21,458 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+22:18:21,467 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+22:18:21,492 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+22:18:21,492 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+22:18:21,493 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+22:18:21,494 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec4x-c42xhorz
+Exception in thread "main" java.io.UncheckedIOException: java.io.FileNotFoundException: workload/swf/um22.swf (Arquivo ou diretório não encontrado)
+	at org.cloudbus.cloudsim.util.ResourceLoader.getInputStream(ResourceLoader.java:155)
+	at org.cloudsimplus.examples.bigdata.WorkloadFileReader.getInstance(WorkloadFileReader.java:79)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.geraCarga(SimulacaoTeste.java:133)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.createAndSubmitVmsAndCloudlets(SimulacaoTeste.java:172)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.inicia(SimulacaoTeste.java:86)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.run(SimulacaoTeste.java:209)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1492)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:484)
+	at java.base/java.util.stream.ForEachOps$ForEachTask.compute(ForEachOps.java:290)
+	at java.base/java.util.concurrent.CountedCompleter.exec(CountedCompleter.java:746)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinTask.doInvoke(ForkJoinTask.java:408)
+	at java.base/java.util.concurrent.ForkJoinTask.invoke(ForkJoinTask.java:736)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateParallel(ForEachOps.java:159)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateParallel(ForEachOps.java:173)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:233)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:497)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:661)
+	at org.cloudsimplus.examples.bigdata.AppTeste.main(AppTeste.java:50)
+Caused by: java.io.FileNotFoundException: workload/swf/um22.swf (Arquivo ou diretório não encontrado)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:220)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:113)
+	at org.cloudbus.cloudsim.util.ResourceLoader.getInputStream(ResourceLoader.java:153)
+	... 19 more

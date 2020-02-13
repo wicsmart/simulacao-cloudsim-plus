@@ -49,4 +49,4 @@ if __name__ == '__main__':
     logs.show()  
    # logs.estatistica()  
 
-    #logs.write('teste.swf')
+    logs.write('teste.swf')

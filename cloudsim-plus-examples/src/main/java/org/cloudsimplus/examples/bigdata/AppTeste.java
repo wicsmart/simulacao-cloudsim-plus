@@ -42,7 +42,7 @@ public class AppTeste {
         List<SimulacaoTeste> list = new ArrayList<>(2);
         int max = args.length;
         for (int i = 3; i < max; i++) {
-            list.add(new SimulacaoTeste(c42xlarge, c42xlarge, vm1, vm2, "c4xc4x-c42xc44x" + name, args[i]));
+            list.add(new SimulacaoTeste(c4xlarge, c42xlarge, vm1, vm2, "c4x-c42x" + name, args[i]));
          //   list.add(new SimulacaoTeste(c4xlarge, c48xlarge, vm1, vm2, "c4xc48x" + name, args[i]));
           //  list.add(new SimulacaoTeste(c4xlarge, c42xlarge, vm1, vm2, "c4c42x" + name, args[i]));
         }

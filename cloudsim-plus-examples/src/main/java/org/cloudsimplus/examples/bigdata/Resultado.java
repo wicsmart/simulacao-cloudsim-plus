@@ -48,9 +48,9 @@ public class Resultado {
     private int coletores;
     private int coreback;
     private String nome;
-    private String bigdata = "bigdata";
-    private String type = "_doc";
-    private String source = "_source";
+    private long tempoInicial;
+
+
     private List<JsonObject> lista = new ArrayList<>();
 
     Resultado(int coletores, int coreback, String nome, int LENGTH1, int LENGTH2) {
@@ -64,7 +64,6 @@ public class Resultado {
     public void setTempoInicial(long tempoInicial) {
         this.tempoInicial = tempoInicial;
     }
-    private long tempoInicial;
 
     public Resultado(int coletores, int coreback, String nome) {
         this.coletores = coletores;

@@ -34,7 +34,6 @@ public class WorkloadFileReader implements WorkloadReader {
     private long inicio;
 
     private final List<Cloudlet> cloudlets;
-    private List<Map<Integer, Integer>> workload = new ArrayList<>();
     private int jobNum = 0;
 
     private int submitTime = 1;
@@ -85,48 +84,17 @@ public class WorkloadFileReader implements WorkloadReader {
         if (cloudlets.isEmpty()) {
             // create a temp array
             fieldArray = new String[maxField];
-
-            if (filePath.endsWith(".gz")) {
-                readGZIPFile(reader);
-            } else if (filePath.endsWith(".zip")) {
-                readZipFile(reader);
-            } else {
-                readTextFile(reader);
-            }
+            readTextFile(reader);
         }
-
         return cloudlets;
     }
     
-     public List<Map<Integer, Integer>> generateListWorkLoad() throws IOException {
-        if (cloudlets.isEmpty()) {
-            // create a temp array
-            fieldArray = new String[maxField];
-
-            if (filePath.endsWith(".gz")) {
-                readGZIPFile(reader);
-            } else if (filePath.endsWith(".zip")) {
-                readZipFile(reader);
-            } else {
-                readTextFileLive(reader);
-            }
-        }
-
-        return workload;
-    }
-
     @Override
     public WorkloadReader setPredicate(Predicate<Cloudlet> predicate) {
         this.predicate = predicate;
         return this;
     }
 
-    /**
-     * Sets the string that identifies the start of a comment line.
-     *
-     * @param comment a character that denotes the start of a comment, e.g. ";" or "#"
-     * @return <code>true</code> if it is successful, <code>false</code> otherwise
-     */
     public boolean setComment(final String comment) {
         if (comment != null && !comment.trim().isEmpty()) {
             this.comment = comment;
@@ -152,21 +120,6 @@ public class WorkloadFileReader implements WorkloadReader {
         return cloud.geraCargaReal(mips, delay, quantidade);
     }
     
-     private Map createCloudletFromTraceLineLive(final String[] array) {
-        
-        id = Integer.valueOf(array[jobNum].trim());
-        Map<Integer, Integer> linha = new HashMap<Integer, Integer>();
-        if(id == IRRELEVANT){
-            id = cloudlets.size() + 1;
-        }
-        long milisec = Long.valueOf(array[submitTime].trim());
-        delay = convertMiliToSecond(milisec);
-        
-        quantidade = (int) Double.parseDouble(array[amount].trim());
-        linha.put(id, quantidade);
-        return linha;
-    }
-
      public long convertMiliToSecond(long atual){
         if (id == 0){
             this.inicio = atual;
@@ -176,13 +129,14 @@ public class WorkloadFileReader implements WorkloadReader {
         return (atual-inicio)/1000;
     }
      
-       public String secondToDate(long seg) {
+    public String secondToDate(long seg) {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         long milli = inicio + (60 *1000);
         Date data = new Date(milli);
         return df.format(data);
         
     }
+   
     private List<Cloudlet> parseTraceLineAndCreateCloudlet(final String line) {
         // skip a comment line
         if (line.startsWith(comment)) {
@@ -209,38 +163,8 @@ public class WorkloadFileReader implements WorkloadReader {
         
     }
     
-    
-     private Map<Integer, Integer> parseTraceLineAndCreateCloudletLive(final String line) {
-        // skip a comment line
-        if (line.startsWith(comment)) {
-            return (Map<Integer, Integer>) NULL;
-        }
-
-        final String[] sp = line.split("\\s+"); // split the fields based on a space
-        int index = 0; // the index of an array
-
-        // check for each field in the array
-        for (final String elem : sp) {
-            if (!elem.trim().isEmpty()) {
-                fieldArray[index] = elem;
-                index++;
-            }
-        }
-       
-        return createCloudletFromTraceLineLive(fieldArray);
-        
-    }
-
-    /*r
-     * Reads traces from a InputStream to a workload reader
-     * in any supported format.
-     *
-     * @param inputStream the stream that is able to read data from a workload reader
-     * @return <code>true</code> if successful, <code>false</code> otherwise.
-     * @throws IOException if the there was any error reading the reader
-     */
-    
-       private void readFile(final InputStream inputStream) throws IOException {
+      
+    private void readFile(final InputStream inputStream) throws IOException {
         //the reader is safely closed by the caller
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         int line = 1;
@@ -254,72 +178,14 @@ public class WorkloadFileReader implements WorkloadReader {
         }
     }
        
-    private void readFileLive(final InputStream inputStream) throws IOException {
-        //the reader is safely closed by the caller
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        int line = 1;
-      
-        String readLine;
-        while ((readLine = readNextLine(reader, line)) != null) {
-            this.workload.add(parseTraceLineAndCreateCloudletLive(readLine));
-        }
-    }
-
     public long getInicio() {
         return inicio;
     }
-
-    /**
-     * Reads traces from a text reader, usually with the swf extension, one line at a time.
-     *
-     * @param inputStream a reader name
-     * @return <code>true</code> if successful, <code>false</code> otherwise.
-     * @throws IOException if the there was any error reading the reader
-     */
+  
     protected void readTextFile(final InputStream inputStream) throws IOException {
         readFile(inputStream);
     }
-    
-    protected void readTextFileLive(final InputStream inputStream) throws IOException {
-        readFileLive(inputStream);
-    }
-
-    /**
-     * Reads traces from a gzip reader, one line at a time.
-     *
-     * @param inputStream a {@link InputStream} to read the file
-     * @return <code>true</code> if successful; <code>false</code> otherwise.
-     * @throws IOException if the there was any error reading the reader
-     */
-    protected void readGZIPFile(final InputStream inputStream) throws IOException {
-        readFile(new GZIPInputStream(inputStream));
-    }
-
-    /**
-     * Reads a set of trace files inside a Zip reader.
-     *
-     * @param inputStream a {@link InputStream} to read the file
-     * @return <code>true</code> if reading a reader is successful;
-     * <code>false</code> otherwise.
-     * @throws IOException if the there was any error reading the reader
-     */
-    protected boolean readZipFile(final InputStream inputStream) throws IOException {
-        try (ZipInputStream zipFile = new ZipInputStream(inputStream)) {
-            while (zipFile.getNextEntry() != null) {
-                readFile(zipFile);
-            }
-            return true;
-        }
-    }
-
-    /**
-     * Reads the next line of the workload reader.
-     *
-     * @param reader     the object that is reading the workload reader
-     * @param lineNumber the number of the line that that will be read from the workload reader
-     * @return the line read; or null if there isn't any more lines to read or if
-     * the number of lines read reached the {@link #getMaxLinesToRead()}
-     */
+  
     private String readNextLine(BufferedReader reader, int lineNumber) throws IOException {
         if (reader.ready() && (maxLinesToRead == -1 || lineNumber <= maxLinesToRead)) {
             return reader.readLine();
@@ -328,50 +194,19 @@ public class WorkloadFileReader implements WorkloadReader {
         return null;
     }
 
-    /**
-     * Gets the maximum number of lines of the workload reader that will be read.
-     * The value -1 indicates that all lines will be read, creating
-     * a cloudlet from every one.
-     *
-     * @return
-     */
     public int getMaxLinesToRead() {
         return maxLinesToRead;
     }
 
-    /**
-     * Sets the maximum number of lines of the workload reader that will be read.
-     * The value -1 indicates that all lines will be read, creating
-     * a cloudlet from every one.
-     *
-     * @param maxLinesToRead the maximum number of lines to set
-     */
+    
     public void setMaxLinesToRead(int maxLinesToRead) {
         this.maxLinesToRead = maxLinesToRead;
     }
 
-    /**
-     * Gets the MIPS capacity of the PEs from the VM where each created Cloudlet is supposed to run.
-     * Considering the workload reader provides the run time for each
-     * application registered inside the reader, the MIPS value will be used
-     * to compute the {@link Cloudlet#getLength() length of the Cloudlet (in MI)}
-     * so that it's expected to execute, inside the VM with the given MIPS capacity,
-     * for the same time as specified into the workload reader.
-     */
     public int getMips() {
         return mips;
     }
 
-    /**
-     * Sets the MIPS capacity of the PEs from the VM where each created Cloudlet is supposed to run.
-     * Considering the workload reader provides the run time for each
-     * application registered inside the reader, the MIPS value will be used
-     * to compute the {@link Cloudlet#getLength() length of the Cloudlet (in MI)}
-     * so that it's expected to execute, inside the VM with the given MIPS capacity,
-     * for the same time as specified into the workload reader.
-     *
-     * @param mips the MIPS value to set
-     */
     public final WorkloadFileReader setMips(final int mips) {
         if (mips <= 0) {
             throw new IllegalArgumentException("MIPS must be greater than 0.");

@@ -5,12 +5,10 @@
  */
 package org.cloudsimplus.examples.bigdata;
 
-import ch.qos.logback.classic.Level;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 import org.cloudbus.cloudsim.allocationpolicies.VmAllocationPolicySimple;
 import org.cloudbus.cloudsim.brokers.DatacenterBroker;
 import org.cloudbus.cloudsim.brokers.DatacenterBrokerSimple;
@@ -19,10 +17,8 @@ import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.datacenters.Datacenter;
 import org.cloudbus.cloudsim.datacenters.DatacenterSimple;
 import org.cloudbus.cloudsim.vms.Vm;
-import org.cloudsimplus.builders.tables.CloudletsTableBuilder;
 import org.cloudsimplus.listeners.CloudletVmEventInfo;
 import org.cloudsimplus.listeners.EventInfo;
-import org.cloudsimplus.util.Log;
 
 /**
  *
@@ -142,32 +138,31 @@ public class SimulacaoTeste implements Runnable {
         List<Vm> newCorebackVms = new ArrayList<>(coreback);
 
         CreateVm col = new CreateVm(configColetor);
- //       newColetorVms = col.listVm(coletor);
+        newColetorVms = col.listVm(coletor);
  
  //************ codigo para adicionar vms diferentes no coletor***************
-
+/*
         AWSVM c42xlarge = new AWSVM("c42xlarge", 8, (int) (15 * 1024));
         AWSVM c4xlarge = new AWSVM("c4xlarge", 4, (int) (7.75 * 1024));
         
         newColetorVms = col.listaMista(c4xlarge, c4xlarge, coletor);
+*/
 //******************************************************************************
 
         CreateVm core = new CreateVm(configCore);
- //     newCorebackVms = core.listVm(coreback);
+        newCorebackVms = core.listVm(coreback);
  
 //*************** codigo para adicionar vms diferentes no core***************
+/*
         AWSVM c44xlarge = new AWSVM("c44xlarge", 16, (int) (30 * 1024));
     
         newCorebackVms = core.listaMista(c42xlarge, c44xlarge, coreback);       
 //******************************************************************************
-
+*/
 
         this.vmCoreback.addAll(newCorebackVms);
         this.brokers.get(1).submitVmList(newCorebackVms);
         
-  //      this.brokers.get(1).submitVm(newCorebackVms.get(1));
-  //      this.brokers.get(1).submitVm(newCorebackVms.get(0));
-//
         this.vmColetores.addAll(newColetorVms);
 
         this.cloudletList.addAll(geraCarga());

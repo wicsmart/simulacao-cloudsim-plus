@@ -20,7 +20,7 @@ if __name__ == '__main__':
     '''Convert dic to frame'''
     resultado = [
         {
-       'vms' : 'confIntermediaria',
+       'vms' : 'c42x-c42xc44x',
        'total_msg' : result['confIntermediaria']['doc_count'],
        'msg_violadas' : result['confIntermediaria']['quantidade']['doc_count'],
        'core_violadas' : result['confIntermediaria']['core']['doc_count'],
@@ -36,7 +36,7 @@ if __name__ == '__main__':
        'custo' : 4
       },
         {
-       'vms' : 'confOtimizada',
+       'vms' : 'c42xc4x-c42xc44x',
        'total_msg' : result['confOtimizada']['doc_count'],
        'msg_violadas' : result['confOtimizada']['quantidade']['doc_count'],
            'core_violadas' : result['confOtimizada']['core']['doc_count'],
@@ -56,9 +56,8 @@ if __name__ == '__main__':
     frame['custo_adicional(%)'] = ((frame.custo / 4.0) -1 ) * 100 
     frame['ganho_qos(%)'] = (1-(frame.msg_violadas /frame.at[1,'msg_violadas']) ) * 100
     frame = frame.reindex(columns=colunas)
-    frame = frame.sort_values(by=['qos_total'], ascending = [1])
+    frame = frame.sort_values(by=['qos_total'], ascending = [0])
 
   
     print frame.round({'qos_total' : 4, 'qos_coletor':4, 'ganho_qos(%)': 4, 'qos_core':4})
-    print json.dumps(result, indent=2, sort_keys=True)
 
