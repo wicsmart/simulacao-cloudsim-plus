@@ -1,0 +1,804 @@
+10:56:00,037 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+10:56:00,055 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+10:56:00,056 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+10:56:00,057 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+10:56:00,057 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+10:56:00,057 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+10:56:00,075 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+10:56:00,296 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+10:56:00,297 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+10:56:00,306 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+10:56:00,322 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+10:56:00,346 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+10:56:00,346 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+10:56:00,346 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+10:56:00,352 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec42xc42xdez22
+Starting SimulacaoTestec4xc42xdez22
+Starting SimulacaoTestec4c42xdez22
+Exception in thread "main" java.io.UncheckedIOException: java.io.FileNotFoundException: workload/swf/um18.swf (Arquivo ou diretório não encontrado)
+	at org.cloudbus.cloudsim.util.ResourceLoader.getInputStream(ResourceLoader.java:155)
+	at org.cloudsimplus.examples.bigdata.WorkloadFileReader.getInstance(WorkloadFileReader.java:79)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.geraCarga(SimulacaoTeste.java:132)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.createAndSubmitVmsAndCloudlets(SimulacaoTeste.java:154)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.inicia(SimulacaoTeste.java:85)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.run(SimulacaoTeste.java:191)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1492)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:484)
+	at java.base/java.util.stream.ForEachOps$ForEachTask.compute(ForEachOps.java:290)
+	at java.base/java.util.concurrent.CountedCompleter.exec(CountedCompleter.java:746)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1603)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)
+Caused by: java.io.FileNotFoundException: workload/swf/um18.swf (Arquivo ou diretório não encontrado)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:220)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:113)
+	at org.cloudbus.cloudsim.util.ResourceLoader.getInputStream(ResourceLoader.java:153)
+	... 13 more
+10:57:17,785 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+10:57:17,805 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+10:57:17,806 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+10:57:17,806 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+10:57:17,807 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+10:57:17,807 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+10:57:17,821 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+10:57:18,012 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+10:57:18,013 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+10:57:18,022 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+10:57:18,039 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+10:57:18,066 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+10:57:18,066 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+10:57:18,067 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+10:57:18,071 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec4xc42xdez22
+Starting SimulacaoTestec42xc42xdez22
+Starting SimulacaoTestec4c42xdez22
+Exception in thread "main" java.io.UncheckedIOException: java.io.FileNotFoundException: workload/swf/um20.swf (Arquivo ou diretório não encontrado)
+	at org.cloudbus.cloudsim.util.ResourceLoader.getInputStream(ResourceLoader.java:155)
+	at org.cloudsimplus.examples.bigdata.WorkloadFileReader.getInstance(WorkloadFileReader.java:79)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.geraCarga(SimulacaoTeste.java:132)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.createAndSubmitVmsAndCloudlets(SimulacaoTeste.java:154)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.inicia(SimulacaoTeste.java:85)
+	at org.cloudsimplus.examples.bigdata.SimulacaoTeste.run(SimulacaoTeste.java:191)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1492)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:484)
+	at java.base/java.util.stream.ForEachOps$ForEachTask.compute(ForEachOps.java:290)
+	at java.base/java.util.concurrent.CountedCompleter.exec(CountedCompleter.java:746)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinTask.doInvoke(ForkJoinTask.java:408)
+	at java.base/java.util.concurrent.ForkJoinTask.invoke(ForkJoinTask.java:736)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateParallel(ForEachOps.java:159)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateParallel(ForEachOps.java:173)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:233)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:497)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:661)
+	at org.cloudsimplus.examples.bigdata.AppTeste.main(AppTeste.java:53)
+Caused by: java.io.FileNotFoundException: workload/swf/um20.swf (Arquivo ou diretório não encontrado)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:220)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:113)
+	at org.cloudbus.cloudsim.util.ResourceLoader.getInputStream(ResourceLoader.java:153)
+	... 19 more
+10:59:04,250 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+10:59:04,267 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+10:59:04,268 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+10:59:04,269 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+10:59:04,269 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+10:59:04,269 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+10:59:04,287 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@49d904ec - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+10:59:04,495 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+10:59:04,496 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+10:59:04,504 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+10:59:04,521 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+10:59:04,548 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+10:59:04,548 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+10:59:04,548 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+10:59:04,552 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@48e4374 - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec42xc42xdez22
+Starting SimulacaoTestec4xc42xdez22
+Starting SimulacaoTestec4c42xdez22
+# Created 80206 Cloudlets for sim c4c42xdez22 
+# Created 80206 Cloudlets for sim c4xc42xdez22 
+# Created 80206 Cloudlets for sim c42xc42xdez22 
+ERROR StatusLogger No log4j2 configuration file found. Using default configuration: logging only errors to the console.
+Bulk 1 completed in 2095 milliseconds
+Bulk 2 completed in 517 milliseconds
+Bulk 3 completed in 404 milliseconds
+Bulk 4 completed in 234 milliseconds
+Bulk 5 completed in 251 milliseconds
+Bulk 6 completed in 352 milliseconds
+Bulk 7 completed in 194 milliseconds
+Bulk 8 completed in 187 milliseconds
+Bulk 9 completed in 316 milliseconds
+Bulk 10 completed in 174 milliseconds
+Bulk 11 completed in 138 milliseconds
+Bulk 12 completed in 97 milliseconds
+Bulk 13 completed in 140 milliseconds
+Bulk 14 completed in 144 milliseconds
+Bulk 15 completed in 137 milliseconds
+Bulk 16 completed in 163 milliseconds
+Bulk 17 completed in 131 milliseconds
+Bulk 18 completed in 127 milliseconds
+Bulk 19 completed in 122 milliseconds
+Bulk 20 completed in 114 milliseconds
+Bulk 21 completed in 136 milliseconds
+Bulk 22 completed in 156 milliseconds
+Bulk 23 completed in 149 milliseconds
+Bulk 24 completed in 157 milliseconds
+Bulk 25 completed in 204 milliseconds
+Bulk 26 completed in 103 milliseconds
+Bulk 27 completed in 90 milliseconds
+Bulk 28 completed in 116 milliseconds
+Bulk 29 completed in 192 milliseconds
+Bulk 30 completed in 155 milliseconds
+Bulk 31 completed in 108 milliseconds
+Bulk 32 completed in 133 milliseconds
+Bulk 33 completed in 131 milliseconds
+Bulk 34 completed in 112 milliseconds
+Bulk 35 completed in 136 milliseconds
+Bulk 36 completed in 149 milliseconds
+Bulk 37 completed in 136 milliseconds
+Bulk 38 completed in 148 milliseconds
+Bulk 39 completed in 153 milliseconds
+Bulk 40 completed in 159 milliseconds
+Bulk 41 completed in 117 milliseconds
+Bulk 42 completed in 90 milliseconds
+Bulk 43 completed in 120 milliseconds
+Bulk 44 completed in 127 milliseconds
+Bulk 45 completed in 88 milliseconds
+Bulk 46 completed in 103 milliseconds
+Bulk 47 completed in 144 milliseconds
+Bulk 48 completed in 186 milliseconds
+Bulk 49 completed in 190 milliseconds
+Bulk 50 completed in 195 milliseconds
+Bulk 51 completed in 265 milliseconds
+Bulk 52 completed in 192 milliseconds
+Bulk 53 completed in 148 milliseconds
+Bulk 54 completed in 193 milliseconds
+Bulk 1 completed in 153 milliseconds
+Bulk 55 completed in 134 milliseconds
+Bulk 2 completed in 153 milliseconds
+Bulk 56 completed in 296 milliseconds
+Bulk 3 completed in 112 milliseconds
+Bulk 57 completed in 137 milliseconds
+Bulk 58 completed in 126 milliseconds
+Bulk 4 completed in 172 milliseconds
+Bulk 59 completed in 97 milliseconds
+Bulk 5 completed in 114 milliseconds
+Bulk 60 completed in 224 milliseconds
+Bulk 6 completed in 110 milliseconds
+Bulk 61 completed in 86 milliseconds
+Bulk 7 completed in 114 milliseconds
+Bulk 62 completed in 95 milliseconds
+Bulk 63 completed in 173 milliseconds
+Bulk 8 completed in 190 milliseconds
+Bulk 64 completed in 103 milliseconds
+Bulk 9 completed in 125 milliseconds
+Bulk 65 completed in 106 milliseconds
+Bulk 10 completed in 128 milliseconds
+Bulk 66 completed in 119 milliseconds
+Bulk 11 completed in 102 milliseconds
+Bulk 67 completed in 154 milliseconds
+Bulk 68 completed in 91 milliseconds
+Bulk 12 completed in 115 milliseconds
+Bulk 69 completed in 127 milliseconds
+Bulk 13 completed in 107 milliseconds
+Bulk 70 completed in 169 milliseconds
+Bulk 14 completed in 151 milliseconds
+Bulk 71 completed in 96 milliseconds
+Bulk 15 completed in 214 milliseconds
+Bulk 72 completed in 205 milliseconds
+Bulk 73 completed in 133 milliseconds
+Bulk 16 completed in 176 milliseconds
+Bulk 74 completed in 182 milliseconds
+Bulk 17 completed in 148 milliseconds
+Bulk 75 completed in 105 milliseconds
+Bulk 18 completed in 123 milliseconds
+Bulk 76 completed in 120 milliseconds
+Bulk 19 completed in 104 milliseconds
+Bulk 77 completed in 166 milliseconds
+Bulk 20 completed in 121 milliseconds
+Bulk 78 completed in 137 milliseconds
+Bulk 79 completed in 84 milliseconds
+Bulk 21 completed in 89 milliseconds
+Bulk 80 completed in 175 milliseconds
+Bulk 81 completed in 530 milliseconds
+Bulk 82 completed in 208 milliseconds
+Bulk 83 completed in 331 milliseconds
+Bulk 84 completed in 203 milliseconds
+Bulk 85 completed in 161 milliseconds
+Bulk 86 completed in 232 milliseconds
+Bulk 22 completed in 282 milliseconds
+Bulk 87 completed in 167 milliseconds
+Bulk 88 completed in 160 milliseconds
+Bulk 89 completed in 251 milliseconds
+Bulk 90 completed in 417 milliseconds
+Bulk 91 completed in 200 milliseconds
+Bulk 92 completed in 176 milliseconds
+Bulk 93 completed in 182 milliseconds
+Bulk 94 completed in 147 milliseconds
+Bulk 95 completed in 206 milliseconds
+Bulk 96 completed in 199 milliseconds
+Bulk 97 completed in 184 milliseconds
+Bulk 98 completed in 176 milliseconds
+Bulk 99 completed in 163 milliseconds
+Bulk 100 completed in 209 milliseconds
+Bulk 101 completed in 201 milliseconds
+Bulk 102 completed in 173 milliseconds
+Bulk 103 completed in 134 milliseconds
+Bulk 104 completed in 156 milliseconds
+Bulk 105 completed in 165 milliseconds
+Bulk 106 completed in 281 milliseconds
+Bulk 107 completed in 161 milliseconds
+Bulk 108 completed in 165 milliseconds
+Bulk 109 completed in 183 milliseconds
+Bulk 110 completed in 177 milliseconds
+Bulk 111 completed in 139 milliseconds
+Bulk 112 completed in 149 milliseconds
+Bulk 23 completed in 162 milliseconds
+Bulk 113 completed in 247 milliseconds
+Bulk 114 completed in 136 milliseconds
+Bulk 115 completed in 122 milliseconds
+Bulk 116 completed in 125 milliseconds
+Bulk 117 completed in 101 milliseconds
+Bulk 118 completed in 114 milliseconds
+Bulk 119 completed in 30 milliseconds
+[0;32mSimulacao c42xc42xdez22 done in 01:01:00.313[0m
+Bulk 24 completed in 144 milliseconds
+Bulk 25 completed in 111 milliseconds
+Bulk 26 completed in 96 milliseconds
+Bulk 27 completed in 120 milliseconds
+Bulk 28 completed in 95 milliseconds
+Bulk 29 completed in 102 milliseconds
+Bulk 30 completed in 83 milliseconds
+Bulk 31 completed in 83 milliseconds
+Bulk 32 completed in 84 milliseconds
+Bulk 33 completed in 107 milliseconds
+Bulk 34 completed in 86 milliseconds
+Bulk 35 completed in 110 milliseconds
+Bulk 36 completed in 109 milliseconds
+Bulk 37 completed in 104 milliseconds
+Bulk 38 completed in 119 milliseconds
+Bulk 39 completed in 78 milliseconds
+Bulk 40 completed in 124 milliseconds
+Bulk 41 completed in 85 milliseconds
+Bulk 42 completed in 102 milliseconds
+Bulk 43 completed in 136 milliseconds
+Bulk 44 completed in 134 milliseconds
+Bulk 45 completed in 113 milliseconds
+Bulk 46 completed in 137 milliseconds
+Bulk 47 completed in 114 milliseconds
+Bulk 48 completed in 101 milliseconds
+Bulk 49 completed in 126 milliseconds
+Bulk 50 completed in 111 milliseconds
+Bulk 51 completed in 114 milliseconds
+Bulk 52 completed in 98 milliseconds
+Bulk 53 completed in 95 milliseconds
+Bulk 54 completed in 96 milliseconds
+Bulk 55 completed in 86 milliseconds
+Bulk 56 completed in 161 milliseconds
+Bulk 57 completed in 83 milliseconds
+Bulk 58 completed in 79 milliseconds
+Bulk 59 completed in 86 milliseconds
+Bulk 60 completed in 99 milliseconds
+Bulk 61 completed in 79 milliseconds
+Bulk 62 completed in 94 milliseconds
+Bulk 63 completed in 107 milliseconds
+Bulk 64 completed in 115 milliseconds
+Bulk 65 completed in 95 milliseconds
+Bulk 66 completed in 83 milliseconds
+Bulk 67 completed in 115 milliseconds
+Bulk 68 completed in 83 milliseconds
+Bulk 69 completed in 182 milliseconds
+Bulk 70 completed in 109 milliseconds
+Bulk 71 completed in 81 milliseconds
+Bulk 72 completed in 240 milliseconds
+Bulk 73 completed in 114 milliseconds
+Bulk 74 completed in 130 milliseconds
+Bulk 75 completed in 76 milliseconds
+Bulk 76 completed in 142 milliseconds
+Bulk 77 completed in 119 milliseconds
+Bulk 78 completed in 143 milliseconds
+Bulk 79 completed in 127 milliseconds
+Bulk 80 completed in 203 milliseconds
+Bulk 81 completed in 112 milliseconds
+Bulk 82 completed in 104 milliseconds
+Bulk 83 completed in 105 milliseconds
+Bulk 84 completed in 111 milliseconds
+Bulk 85 completed in 191 milliseconds
+Bulk 86 completed in 127 milliseconds
+Bulk 87 completed in 136 milliseconds
+Bulk 88 completed in 125 milliseconds
+Bulk 89 completed in 137 milliseconds
+Bulk 90 completed in 95 milliseconds
+Bulk 91 completed in 112 milliseconds
+Bulk 92 completed in 100 milliseconds
+Bulk 93 completed in 123 milliseconds
+Bulk 94 completed in 205 milliseconds
+Bulk 95 completed in 125 milliseconds
+Bulk 96 completed in 130 milliseconds
+Bulk 97 completed in 123 milliseconds
+Bulk 98 completed in 305 milliseconds
+Bulk 99 completed in 168 milliseconds
+Bulk 100 completed in 139 milliseconds
+Bulk 101 completed in 105 milliseconds
+Bulk 102 completed in 143 milliseconds
+Bulk 103 completed in 102 milliseconds
+Bulk 104 completed in 108 milliseconds
+Bulk 105 completed in 129 milliseconds
+Bulk 106 completed in 132 milliseconds
+Bulk 107 completed in 102 milliseconds
+Bulk 108 completed in 111 milliseconds
+Bulk 109 completed in 109 milliseconds
+Bulk 110 completed in 97 milliseconds
+Bulk 111 completed in 122 milliseconds
+Bulk 112 completed in 147 milliseconds
+Bulk 113 completed in 143 milliseconds
+Bulk 114 completed in 123 milliseconds
+Bulk 115 completed in 124 milliseconds
+Bulk 116 completed in 121 milliseconds
+Bulk 117 completed in 120 milliseconds
+Bulk 118 completed in 109 milliseconds
+Bulk 119 completed in 96 milliseconds
+Bulk 120 completed in 104 milliseconds
+Bulk 121 completed in 98 milliseconds
+Bulk 122 completed in 102 milliseconds
+Bulk 123 completed in 112 milliseconds
+Bulk 124 completed in 69 milliseconds
+[0;32mSimulacao c4xc42xdez22 done in 01:03:47.862[0m
+14:14:52,008 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+14:14:52,011 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+14:14:52,012 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+14:14:52,012 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+14:14:52,012 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+14:14:52,012 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+14:14:52,028 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+14:14:52,234 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+14:14:52,235 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+14:14:52,246 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+14:14:52,263 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+14:14:52,290 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+14:14:52,290 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+14:14:52,291 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+14:14:52,294 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec4xc42xdez22
+Starting SimulacaoTestec42xc42xdez22
+Starting SimulacaoTestec4c42xdez22
+# Created 69010 Cloudlets for sim c42xc42xdez22 
+# Created 69010 Cloudlets for sim c4xc42xdez22 
+# Created 69010 Cloudlets for sim c4c42xdez22 
+Java HotSpot(TM) 64-Bit Server VM warning: INFO: os::commit_memory(0x00000000e4d00000, 117440512, 0) failed; error='Not enough space' (errno=12)
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 117440512 bytes for committing reserved memory.
+# An error report file with more information is saved as:
+# /home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/hs_err_pid19272.log
+17:25:47,403 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+17:25:47,433 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+17:25:47,435 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+17:25:47,436 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+17:25:47,436 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+17:25:47,436 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+17:25:47,455 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+17:25:47,680 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+17:25:47,680 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+17:25:47,687 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+17:25:47,703 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+17:25:47,725 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+17:25:47,725 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+17:25:47,726 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+17:25:47,731 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec4c42xdez22
+Starting SimulacaoTestec4xc42xdez22
+Starting SimulacaoTestec42xc42xdez22
+# Created 69010 Cloudlets for sim c42xc42xdez22 
+# Created 69010 Cloudlets for sim c4xc42xdez22 
+# Created 69010 Cloudlets for sim c4c42xdez22 
+ERROR StatusLogger No log4j2 configuration file found. Using default configuration: logging only errors to the console.
+Bulk 1 completed in 2186 milliseconds
+Bulk 2 completed in 324 milliseconds
+Bulk 3 completed in 293 milliseconds
+Bulk 4 completed in 213 milliseconds
+Bulk 5 completed in 191 milliseconds
+Bulk 6 completed in 175 milliseconds
+Bulk 7 completed in 159 milliseconds
+Bulk 8 completed in 211 milliseconds
+Bulk 9 completed in 104 milliseconds
+Bulk 10 completed in 119 milliseconds
+Bulk 11 completed in 127 milliseconds
+Bulk 12 completed in 121 milliseconds
+Bulk 13 completed in 131 milliseconds
+Bulk 14 completed in 111 milliseconds
+Bulk 15 completed in 122 milliseconds
+Bulk 16 completed in 111 milliseconds
+Bulk 17 completed in 105 milliseconds
+Bulk 18 completed in 110 milliseconds
+Bulk 19 completed in 96 milliseconds
+Bulk 20 completed in 103 milliseconds
+Bulk 21 completed in 154 milliseconds
+Bulk 22 completed in 86 milliseconds
+Bulk 23 completed in 87 milliseconds
+Bulk 24 completed in 83 milliseconds
+Bulk 25 completed in 144 milliseconds
+Bulk 26 completed in 86 milliseconds
+Bulk 27 completed in 108 milliseconds
+Bulk 28 completed in 100 milliseconds
+Bulk 29 completed in 88 milliseconds
+Bulk 30 completed in 113 milliseconds
+Bulk 31 completed in 102 milliseconds
+Bulk 32 completed in 232 milliseconds
+Bulk 33 completed in 104 milliseconds
+Bulk 34 completed in 93 milliseconds
+Bulk 35 completed in 120 milliseconds
+Bulk 36 completed in 146 milliseconds
+Bulk 37 completed in 99 milliseconds
+Bulk 38 completed in 196 milliseconds
+Bulk 1 completed in 166 milliseconds
+Bulk 39 completed in 103 milliseconds
+Bulk 2 completed in 139 milliseconds
+Bulk 40 completed in 117 milliseconds
+Bulk 3 completed in 90 milliseconds
+Bulk 41 completed in 99 milliseconds
+Bulk 4 completed in 83 milliseconds
+Bulk 42 completed in 101 milliseconds
+Bulk 5 completed in 110 milliseconds
+Bulk 43 completed in 84 milliseconds
+Bulk 6 completed in 107 milliseconds
+Bulk 44 completed in 90 milliseconds
+Bulk 7 completed in 113 milliseconds
+Bulk 45 completed in 116 milliseconds
+Bulk 8 completed in 95 milliseconds
+Bulk 46 completed in 123 milliseconds
+Bulk 9 completed in 104 milliseconds
+Bulk 47 completed in 119 milliseconds
+Bulk 10 completed in 180 milliseconds
+Bulk 48 completed in 349 milliseconds
+Bulk 11 completed in 136 milliseconds
+Bulk 49 completed in 134 milliseconds
+Bulk 12 completed in 128 milliseconds
+Bulk 50 completed in 120 milliseconds
+Bulk 13 completed in 128 milliseconds
+Bulk 51 completed in 138 milliseconds
+Bulk 14 completed in 117 milliseconds
+Bulk 15 completed in 88 milliseconds
+Bulk 52 completed in 105 milliseconds
+Bulk 16 completed in 102 milliseconds
+Bulk 53 completed in 130 milliseconds
+Bulk 17 completed in 92 milliseconds
+Bulk 54 completed in 115 milliseconds
+Bulk 18 completed in 214 milliseconds
+Bulk 55 completed in 197 milliseconds
+Bulk 56 completed in 81 milliseconds
+Bulk 19 completed in 87 milliseconds
+Bulk 57 completed in 119 milliseconds
+Bulk 20 completed in 135 milliseconds
+Bulk 58 completed in 110 milliseconds
+Bulk 21 completed in 91 milliseconds
+Bulk 59 completed in 129 milliseconds
+Bulk 22 completed in 114 milliseconds
+Bulk 60 completed in 82 milliseconds
+Bulk 23 completed in 118 milliseconds
+Bulk 61 completed in 100 milliseconds
+Bulk 24 completed in 128 milliseconds
+Bulk 62 completed in 84 milliseconds
+Bulk 25 completed in 88 milliseconds
+Bulk 63 completed in 117 milliseconds
+Bulk 26 completed in 92 milliseconds
+Bulk 27 completed in 99 milliseconds
+Bulk 64 completed in 109 milliseconds
+Bulk 28 completed in 196 milliseconds
+Bulk 65 completed in 319 milliseconds
+Bulk 29 completed in 106 milliseconds
+Bulk 66 completed in 94 milliseconds
+Bulk 30 completed in 102 milliseconds
+Bulk 67 completed in 157 milliseconds
+Bulk 68 completed in 141 milliseconds
+Bulk 31 completed in 109 milliseconds
+Bulk 69 completed in 165 milliseconds
+Bulk 32 completed in 217 milliseconds
+Bulk 70 completed in 477 milliseconds
+Bulk 71 completed in 427 milliseconds
+Bulk 72 completed in 341 milliseconds
+Bulk 73 completed in 176 milliseconds
+Bulk 74 completed in 201 milliseconds
+Bulk 75 completed in 194 milliseconds
+Bulk 76 completed in 188 milliseconds
+Bulk 77 completed in 180 milliseconds
+Bulk 78 completed in 153 milliseconds
+Bulk 79 completed in 213 milliseconds
+Bulk 80 completed in 205 milliseconds
+Bulk 81 completed in 261 milliseconds
+Bulk 82 completed in 145 milliseconds
+Bulk 83 completed in 171 milliseconds
+Bulk 84 completed in 118 milliseconds
+Bulk 33 completed in 143 milliseconds
+Bulk 85 completed in 186 milliseconds
+Bulk 86 completed in 164 milliseconds
+Bulk 87 completed in 170 milliseconds
+Bulk 88 completed in 206 milliseconds
+Bulk 89 completed in 146 milliseconds
+Bulk 90 completed in 156 milliseconds
+Bulk 91 completed in 157 milliseconds
+Bulk 92 completed in 163 milliseconds
+Bulk 93 completed in 172 milliseconds
+Bulk 94 completed in 189 milliseconds
+Bulk 95 completed in 194 milliseconds
+Bulk 96 completed in 160 milliseconds
+Bulk 97 completed in 147 milliseconds
+Bulk 98 completed in 143 milliseconds
+Bulk 99 completed in 143 milliseconds
+Bulk 34 completed in 367 milliseconds
+Bulk 100 completed in 459 milliseconds
+Bulk 101 completed in 151 milliseconds
+Bulk 102 completed in 165 milliseconds
+Bulk 103 completed in 136 milliseconds
+Bulk 104 completed in 213 milliseconds
+Bulk 105 completed in 272 milliseconds
+Bulk 106 completed in 246 milliseconds
+Bulk 107 completed in 112 milliseconds
+[0;32mSimulacao c42xc42xdez22 done in 00:36:59.491[0m
+Bulk 35 completed in 116 milliseconds
+Bulk 36 completed in 114 milliseconds
+Bulk 37 completed in 85 milliseconds
+Bulk 38 completed in 87 milliseconds
+Bulk 39 completed in 94 milliseconds
+Bulk 40 completed in 141 milliseconds
+Bulk 41 completed in 175 milliseconds
+Bulk 42 completed in 115 milliseconds
+Bulk 43 completed in 119 milliseconds
+Bulk 44 completed in 111 milliseconds
+Bulk 45 completed in 118 milliseconds
+Bulk 46 completed in 102 milliseconds
+Bulk 47 completed in 117 milliseconds
+Bulk 48 completed in 89 milliseconds
+Bulk 49 completed in 96 milliseconds
+Bulk 50 completed in 81 milliseconds
+Bulk 51 completed in 97 milliseconds
+Bulk 52 completed in 93 milliseconds
+Bulk 53 completed in 101 milliseconds
+Bulk 54 completed in 91 milliseconds
+Bulk 55 completed in 82 milliseconds
+Bulk 56 completed in 81 milliseconds
+Bulk 57 completed in 91 milliseconds
+Bulk 58 completed in 92 milliseconds
+Bulk 59 completed in 98 milliseconds
+Bulk 60 completed in 74 milliseconds
+Bulk 61 completed in 99 milliseconds
+Bulk 62 completed in 79 milliseconds
+Bulk 63 completed in 82 milliseconds
+Bulk 64 completed in 80 milliseconds
+Bulk 65 completed in 87 milliseconds
+Bulk 66 completed in 93 milliseconds
+Bulk 67 completed in 114 milliseconds
+Bulk 68 completed in 94 milliseconds
+Bulk 69 completed in 241 milliseconds
+Bulk 70 completed in 107 milliseconds
+Bulk 71 completed in 137 milliseconds
+Bulk 72 completed in 113 milliseconds
+Bulk 73 completed in 116 milliseconds
+Bulk 74 completed in 150 milliseconds
+Bulk 75 completed in 128 milliseconds
+Bulk 76 completed in 143 milliseconds
+Bulk 77 completed in 138 milliseconds
+Bulk 78 completed in 139 milliseconds
+Bulk 79 completed in 173 milliseconds
+Bulk 80 completed in 288 milliseconds
+Bulk 81 completed in 152 milliseconds
+Bulk 82 completed in 195 milliseconds
+Bulk 83 completed in 211 milliseconds
+Bulk 84 completed in 142 milliseconds
+Bulk 85 completed in 137 milliseconds
+Bulk 86 completed in 91 milliseconds
+Bulk 87 completed in 115 milliseconds
+Bulk 88 completed in 114 milliseconds
+Bulk 89 completed in 150 milliseconds
+Bulk 90 completed in 272 milliseconds
+Bulk 91 completed in 164 milliseconds
+Bulk 92 completed in 161 milliseconds
+Bulk 93 completed in 192 milliseconds
+Bulk 94 completed in 171 milliseconds
+Bulk 95 completed in 155 milliseconds
+Bulk 96 completed in 327 milliseconds
+Bulk 97 completed in 154 milliseconds
+Bulk 98 completed in 222 milliseconds
+Bulk 99 completed in 282 milliseconds
+Bulk 100 completed in 229 milliseconds
+Bulk 101 completed in 188 milliseconds
+Bulk 102 completed in 134 milliseconds
+Bulk 103 completed in 209 milliseconds
+Bulk 104 completed in 109 milliseconds
+Bulk 105 completed in 234 milliseconds
+Bulk 106 completed in 172 milliseconds
+Bulk 107 completed in 201 milliseconds
+Bulk 108 completed in 162 milliseconds
+Bulk 109 completed in 214 milliseconds
+Bulk 110 completed in 240 milliseconds
+Bulk 111 completed in 86 milliseconds
+[0;32mSimulacao c4xc42xdez22 done in 00:38:13.366[0m
+Bulk 1 completed in 174 milliseconds
+Bulk 2 completed in 144 milliseconds
+Bulk 3 completed in 136 milliseconds
+Bulk 4 completed in 131 milliseconds
+Bulk 5 completed in 117 milliseconds
+Bulk 6 completed in 166 milliseconds
+Bulk 7 completed in 91 milliseconds
+Bulk 8 completed in 133 milliseconds
+Bulk 9 completed in 91 milliseconds
+Bulk 10 completed in 83 milliseconds
+Bulk 11 completed in 83 milliseconds
+Bulk 12 completed in 76 milliseconds
+Bulk 13 completed in 75 milliseconds
+Bulk 14 completed in 74 milliseconds
+Bulk 15 completed in 79 milliseconds
+Bulk 16 completed in 86 milliseconds
+Bulk 17 completed in 80 milliseconds
+Bulk 18 completed in 73 milliseconds
+Bulk 19 completed in 74 milliseconds
+Bulk 20 completed in 87 milliseconds
+Bulk 21 completed in 102 milliseconds
+Bulk 22 completed in 76 milliseconds
+Bulk 23 completed in 84 milliseconds
+Bulk 24 completed in 84 milliseconds
+Bulk 25 completed in 82 milliseconds
+Bulk 26 completed in 79 milliseconds
+Bulk 27 completed in 81 milliseconds
+Bulk 28 completed in 78 milliseconds
+Bulk 29 completed in 88 milliseconds
+Bulk 30 completed in 73 milliseconds
+Bulk 31 completed in 78 milliseconds
+Bulk 32 completed in 75 milliseconds
+Bulk 33 completed in 496 milliseconds
+Bulk 34 completed in 76 milliseconds
+Bulk 35 completed in 86 milliseconds
+Bulk 36 completed in 80 milliseconds
+Bulk 37 completed in 74 milliseconds
+Bulk 38 completed in 84 milliseconds
+Bulk 39 completed in 73 milliseconds
+Bulk 40 completed in 76 milliseconds
+Bulk 41 completed in 75 milliseconds
+Bulk 42 completed in 76 milliseconds
+Bulk 43 completed in 85 milliseconds
+Bulk 44 completed in 73 milliseconds
+Bulk 45 completed in 89 milliseconds
+Bulk 46 completed in 73 milliseconds
+Bulk 47 completed in 72 milliseconds
+Bulk 48 completed in 84 milliseconds
+Bulk 49 completed in 72 milliseconds
+Bulk 50 completed in 72 milliseconds
+Bulk 51 completed in 79 milliseconds
+Bulk 52 completed in 73 milliseconds
+Bulk 53 completed in 72 milliseconds
+Bulk 54 completed in 72 milliseconds
+Bulk 55 completed in 100 milliseconds
+Bulk 56 completed in 72 milliseconds
+Bulk 57 completed in 82 milliseconds
+Bulk 58 completed in 73 milliseconds
+Bulk 59 completed in 74 milliseconds
+Bulk 60 completed in 79 milliseconds
+Bulk 61 completed in 78 milliseconds
+Bulk 62 completed in 79 milliseconds
+Bulk 63 completed in 71 milliseconds
+Bulk 64 completed in 71 milliseconds
+Bulk 65 completed in 77 milliseconds
+Bulk 66 completed in 96 milliseconds
+Bulk 67 completed in 70 milliseconds
+Bulk 68 completed in 70 milliseconds
+Bulk 69 completed in 80 milliseconds
+Bulk 70 completed in 111 milliseconds
+Bulk 71 completed in 111 milliseconds
+Bulk 72 completed in 110 milliseconds
+Bulk 73 completed in 98 milliseconds
+Bulk 74 completed in 218 milliseconds
+Bulk 75 completed in 102 milliseconds
+Bulk 76 completed in 117 milliseconds
+Bulk 77 completed in 91 milliseconds
+Bulk 78 completed in 91 milliseconds
+Bulk 79 completed in 94 milliseconds
+Bulk 80 completed in 532 milliseconds
+Bulk 81 completed in 220 milliseconds
+Bulk 82 completed in 98 milliseconds
+Bulk 83 completed in 105 milliseconds
+Bulk 84 completed in 90 milliseconds
+Bulk 85 completed in 94 milliseconds
+Bulk 86 completed in 129 milliseconds
+Bulk 87 completed in 96 milliseconds
+Bulk 88 completed in 113 milliseconds
+Bulk 89 completed in 95 milliseconds
+Bulk 90 completed in 91 milliseconds
+Bulk 91 completed in 232 milliseconds
+Bulk 92 completed in 91 milliseconds
+Bulk 93 completed in 112 milliseconds
+Bulk 94 completed in 97 milliseconds
+Bulk 95 completed in 107 milliseconds
+Bulk 96 completed in 107 milliseconds
+Bulk 97 completed in 104 milliseconds
+Bulk 98 completed in 144 milliseconds
+Bulk 99 completed in 130 milliseconds
+Bulk 100 completed in 131 milliseconds
+Bulk 101 completed in 115 milliseconds
+Bulk 102 completed in 225 milliseconds
+Bulk 103 completed in 123 milliseconds
+Bulk 104 completed in 136 milliseconds
+Bulk 105 completed in 131 milliseconds
+Bulk 106 completed in 111 milliseconds
+Bulk 107 completed in 107 milliseconds
+Bulk 108 completed in 97 milliseconds
+Bulk 109 completed in 113 milliseconds
+Bulk 110 completed in 94 milliseconds
+Bulk 111 completed in 88 milliseconds
+Bulk 112 completed in 99 milliseconds
+Bulk 113 completed in 233 milliseconds
+Bulk 114 completed in 103 milliseconds
+Bulk 115 completed in 101 milliseconds
+Bulk 116 completed in 98 milliseconds
+Bulk 117 completed in 104 milliseconds
+Bulk 118 completed in 98 milliseconds
+Bulk 119 completed in 116 milliseconds
+Bulk 120 completed in 118 milliseconds
+Bulk 121 completed in 119 milliseconds
+Bulk 122 completed in 124 milliseconds
+[0;32mSimulacao c4c42xdez22 done in 00:40:35.334[0m
+18:41:28,941 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+18:41:28,953 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+18:41:28,955 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+18:41:28,956 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+18:41:28,956 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+18:41:28,956 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+18:41:28,972 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+18:41:29,147 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+18:41:29,148 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+18:41:29,154 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+18:41:29,169 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+18:41:29,189 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+18:41:29,189 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+18:41:29,189 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+18:41:29,193 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec4c42xdez22
+# Created 80206 Cloudlets for sim c4c42xdez22 
+23:07:24,166 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+23:07:24,168 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+23:07:24,169 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+23:07:24,170 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+23:07:24,170 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+23:07:24,170 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+23:07:24,184 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+23:07:24,349 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+23:07:24,350 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+23:07:24,356 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+23:07:24,371 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+23:07:24,392 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+23:07:24,392 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+23:07:24,392 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+23:07:24,396 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec4c42xdez22
+# Created 80206 Cloudlets for sim c4c42xdez22 
+00:42:37,961 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+00:42:37,979 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+00:42:37,979 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+00:42:37,980 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
+00:42:37,980 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml]
+00:42:37,980 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/home/wictor/.m2/repository/org/cloudsimplus/cloudsim-plus/3.0.1/cloudsim-plus-3.0.1.jar!/logback.xml]
+00:42:37,994 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@3ba9ad43 - URL [jar:file:/home/wictor/Downloads/manoelcampos-cloudsim-plus-38d7106/cloudsim-plus-examples/target/cloudsim-plus-examples-3.0.1.jar!/logback.xml] is not of type file
+00:42:38,167 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+00:42:38,168 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+00:42:38,174 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+00:42:38,189 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+00:42:38,212 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to DEBUG
+00:42:38,212 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+00:42:38,212 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+00:42:38,216 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@49d904ec - Registering current configuration as safe fallback point
+
+Starting SimulacaoTestec4c42xdez22
+# Created 80206 Cloudlets for sim c4c42xdez22 

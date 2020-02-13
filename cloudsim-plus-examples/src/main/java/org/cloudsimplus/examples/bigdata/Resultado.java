@@ -7,24 +7,35 @@ package org.cloudsimplus.examples.bigdata;
 
 import com.google.gson.JsonObject;
 import java.io.FileWriter;
+
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.apache.http.HttpEntity;
+import java.util.function.BiConsumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.http.HttpHost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.nio.entity.NStringEntity;
 import org.cloudbus.cloudsim.brokers.DatacenterBroker;
 import org.cloudbus.cloudsim.cloudlets.CloudletSimple;
 import org.cloudbus.cloudsim.vms.Vm;
 import org.cloudsimplus.listeners.EventInfo;
-import org.elasticsearch.client.Response;
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.bulk.BackoffPolicy;
+import org.elasticsearch.action.bulk.BulkProcessor;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.ByteSizeUnit;
+import org.elasticsearch.common.unit.ByteSizeValue;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -36,127 +47,110 @@ public class Resultado {
 
     private int coletores;
     private int coreback;
-    private int carga;
-    private int tempo;
     private String nome;
-    private long length1;
-    private long length2;
-    private String bigdata = "bigdata";
-    private String type = "_doc";
-    private String source = "_source";
+    private long tempoInicial;
+
+
     private List<JsonObject> lista = new ArrayList<>();
 
-    public Resultado(int coletores, int coreback, int tempo,
-            String nome, long length1, long length2) {
-        this.coletores = coletores;
-        this.coreback = coreback;
-        this.tempo = tempo;
-        this.nome = nome;
-        this.length1 = length1;
-        this.length2 = length2;
+    Resultado(int coletores, int coreback, String nome, int LENGTH1, int LENGTH2) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void createFile(List<DatacenterBroker> brokers) throws IOException {
-        String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
+    public long getTempoInicial() {
+        return tempoInicial;
+    }
 
-        List<? extends CloudletSimple> cloudlist1;
-        List<? extends CloudletSimple> cloudlist2;
-        cloudlist1 = brokers.get(0).getCloudletFinishedList();
-        cloudlist2 = brokers.get(1).getCloudletFinishedList();
-        JSONObject obj = new JSONObject();
-        JSONArray docs = new JSONArray();
+    public void setTempoInicial(long tempoInicial) {
+        this.tempoInicial = tempoInicial;
+    }
 
-        for (CloudletSimple cdl : cloudlist1) {
-            JsonObject doc = new JsonObject();
-            JsonObject campo = new JsonObject();
-            doc.addProperty("_index", "bigdata");
-            doc.addProperty("_type", "_doc");
-            campo.addProperty("created", timestamp);
-            campo.addProperty("startTimeColetor", segundoTotime(cdl.getExecStartTime()));
-            campo.addProperty("execTimeColetor", cdl.getActualCpuTime());
-            for (CloudletSimple cdl2 : cloudlist2) {
-                if (cdl2.getId() == (cdl.getId())) {
-                    campo.addProperty("startTimeCore", segundoTotime(cdl2.getExecStartTime()));
-                    campo.addProperty("execTimeCore", cdl2.getActualCpuTime());
-                }
-            }
-            campo.addProperty("duracao", segundoTotime(tempo));
-            campo.addProperty("coletor", coletores);
-            campo.addProperty("core", coreback);
-            campo.addProperty("carga_dados", carga);
-            campo.addProperty("nome", nome);
-            campo.addProperty("lengthColetor", length1);
-            campo.addProperty("lengthCore", length2);
-            doc.add("_source", campo);
-            docs.add(doc);
-        }
-        for (JsonObject js : lista) {
-            JsonObject doc = new JsonObject();
-            doc.addProperty("_index", "bigdata");
-            doc.addProperty("_type", "_doc");
-            js.addProperty("created", timestamp);
-            js.addProperty("nome", nome);
-            js.addProperty("carga_dados", carga);
-            doc.add("_source", js);
-            docs.add(doc);
-        }
-        System.out.println("init infra");
-        try (FileWriter file = new FileWriter("/home/wictor/resultado/"+nome+".json")) {
-            file.write(docs.toJSONString());
-            System.out.println("Successfully Copied JSON Object to File...");
-        } catch (IOException ex){
-            System.out.println(ex.getMessage());
-        }
-
+    public Resultado(int coletores, int coreback, String nome) {
+        this.coletores = coletores;
+        this.coreback = coreback;
+        this.nome = nome;
     }
 
     public void saveElastic(List<DatacenterBroker> brokers) throws IOException {
         String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
-       
-        RestClient restClient = RestClient.builder(
-                new HttpHost("localhost", 9200, "http")).build();
-    
+     
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost("localhost", 9200, "http")));
+
+        BulkProcessor.Listener listener = new BulkProcessor.Listener() {
+            @Override
+            public void beforeBulk(long executionId, BulkRequest request) {
+                int numberOfActions = request.numberOfActions();
+//                System.out.println("Executing bulk " + executionId
+//                        + " with " + numberOfActions + " requests");
+            }
+
+            @Override
+            public void afterBulk(long executionId, BulkRequest request,
+                    BulkResponse response) {
+                if (response.hasFailures()) {
+                    System.out.println("Bulk " + executionId + " executed with failures");
+
+                } else {
+                    System.out.println("Bulk " + executionId + " completed in " + response.getTook().getMillis()
+                            + " milliseconds");
+                }
+
+            }
+
+            @Override
+            public void afterBulk(long executionId, BulkRequest request, Throwable failure) {
+                System.out.println("Falhou " + failure);
+            }
+        };
+        BiConsumer<BulkRequest, ActionListener<BulkResponse>> bulkConsumer
+                = (request, bulkListener) -> client.bulkAsync(request, RequestOptions.DEFAULT, bulkListener);
+
+        BulkProcessor bulkProcessor = BulkProcessor.builder(bulkConsumer, listener).build();
+        BulkProcessor.Builder builder = BulkProcessor.builder(bulkConsumer, listener);
+        builder.setBulkActions(500);
+        builder.setBulkSize(new ByteSizeValue(1L, ByteSizeUnit.MB));
+        builder.setConcurrentRequests(0);
+        builder.setFlushInterval(TimeValue.timeValueSeconds(10L));
+        builder.setBackoffPolicy(BackoffPolicy
+                .constantBackoff(TimeValue.timeValueSeconds(1L), 3));
+
         List<? extends CloudletSimple> cloudlist1;
         List<? extends CloudletSimple> cloudlist2;
         cloudlist1 = brokers.get(0).getCloudletFinishedList();
         cloudlist2 = brokers.get(1).getCloudletFinishedList();
-
+      
         for (CloudletSimple cdl : cloudlist1) {
 
             JsonObject campo = new JsonObject();
             campo.addProperty("created", timestamp);
-            campo.addProperty("startTimeColetor", segundoTotime(cdl.getExecStartTime()));
+            campo.addProperty("startTimeColetor", secondToDate((long) cdl.getExecStartTime()));
             campo.addProperty("execTimeColetor", cdl.getActualCpuTime());
             for (CloudletSimple cdl2 : cloudlist2) {
                 if (cdl2.getId() == (cdl.getId())) {
-                    campo.addProperty("startTimeCore", segundoTotime(cdl2.getExecStartTime()));
+                    campo.addProperty("startTimeCore", secondToDate((long) cdl2.getExecStartTime()));
                     campo.addProperty("execTimeCore", cdl2.getActualCpuTime());
                 }
             }
-            campo.addProperty("duracao", segundoTotime(tempo));
             campo.addProperty("coletor", coletores);
             campo.addProperty("core", coreback);
-            campo.addProperty("carga_dados", carga);
             campo.addProperty("nome", nome);
-            campo.addProperty("lengthColetor", length1);
-            campo.addProperty("lengthCore", length2);
 
-            HttpEntity entity = new NStringEntity(campo.toString(), ContentType.APPLICATION_JSON);
-            Response response;
-            Map<String, String> params = Collections.emptyMap();
-            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
+            bulkProcessor.add(new IndexRequest("bigdata", "_doc").source(campo.toString(), XContentType.JSON));
+
         }
-//        for (JsonObject js : lista) {
-//            js.addProperty("created", timestamp);
-//            js.addProperty("nome", nome);
-//            js.addProperty("carga_dados", carga);
-//
-//            HttpEntity entity = new NStringEntity(js.toString(), ContentType.APPLICATION_JSON);
-//            Response response;
-//            Map<String, String> params = Collections.emptyMap();
-//            response = restClient.performRequest("POST", "/bigdata/_doc", params, entity);
-//        }
-        restClient.close();
+        for (JsonObject js : this.lista) {
+            js.addProperty("created", timestamp);
+            bulkProcessor.add(new IndexRequest("bigdata", "_doc").source(js.toString(), XContentType.JSON));
+        }
+
+        try {
+            boolean terminated = bulkProcessor.awaitClose(60L, TimeUnit.SECONDS);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Resultado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        client.close();
     }
 
     public String segundoTotime(double seg) {
@@ -168,6 +162,14 @@ public class Resultado {
                 TimeUnit.MILLISECONDS.toSeconds(mili) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(mili)),
                 mili - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(mili)));
         return tempo;
+    }
+
+    public String secondToDate(long seg) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        long mili = this.tempoInicial + (seg * 1000);
+        Date data = new Date(mili + TimeUnit.HOURS.toMillis(2));
+        return df.format(data);
+
     }
 
     public void estatiticas(List<Vm> coletor, List<Vm> coreback, List<DatacenterBroker> brokers) {
@@ -202,17 +204,17 @@ public class Resultado {
                     vm, vm.getStartTime(), vm.getStopTime(), vm.getTotalExecutionTime());
         }
         System.out.println("");
-        System.out.println("Media Coletor = " + segundoTotime(mediaColetor)
+        System.out.println("Media Coletor = " + secondToDate((long) mediaColetor)
                 + " seg. " + " Quant: " + coletorFinished.size());
-        System.out.println("Media Core = " + segundoTotime(mediaCore)
+        System.out.println("Media Core = " + secondToDate((long) mediaCore)
                 + " seg. " + " Quant: " + corebackFinished.size());
 
     }
 
-    public void cpuRamSalva(List<Vm> coletor, List<Vm> coreback, EventInfo event) {
+    public void cpuRamSalva(List<Vm> coletor, List<Vm> corebackvm, EventInfo event) {
 
         JsonObject campo = new JsonObject();
-        campo.addProperty("timeUsage", segundoTotime(event.getTime()));
+        campo.addProperty("timeUsage", secondToDate((long) event.getTime()));
         double cpuCol = 0;
         double ramCol = 0;
         double cpuCore = 0;
@@ -228,17 +230,19 @@ public class Resultado {
         double mediaRamColetor = ramCol / coletor.size();
         campo.addProperty("mediaCpuColetor", mediaCpuColetor);
         campo.addProperty("mediaRamColetor", mediaRamColetor);
-        for (Vm vm : coreback) {
+        for (Vm vm : corebackvm) {
             cpuCore += vm.getCpuPercentUsage() * 100.0;
             ramCore += vm.getRam().getPercentUtilization() * 100;
             campo.addProperty("coreCpuVM" + vm.getId(), vm.getCpuPercentUsage() * 100.0);
             campo.addProperty("coreRamVM" + vm.getId(), vm.getRam().getPercentUtilization() * 100);
         }
-        double mediaCpuCore = cpuCore / coreback.size();
-        double mediaRamCore = ramCore / coreback.size();
+        double mediaCpuCore = cpuCore / corebackvm.size();
+        double mediaRamCore = ramCore / corebackvm.size();
         campo.addProperty("mediaCpuCore", mediaCpuCore);
         campo.addProperty("mediaRamCore", mediaRamCore);
-        lista.add(campo);
+        campo.addProperty("nome", nome);
+
+        this.lista.add(campo);
     }
 
     public void cpuRamPrint(List<Vm> coletor, List<Vm> coreback, EventInfo event) {
@@ -255,4 +259,5 @@ public class Resultado {
                     vm.getRam().getPercentUtilization() * 100, vm.getRam().getAllocatedResource());
         }
     }
+
 }

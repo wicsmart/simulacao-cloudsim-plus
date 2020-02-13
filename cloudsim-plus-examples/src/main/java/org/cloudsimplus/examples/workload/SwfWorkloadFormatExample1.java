@@ -90,7 +90,7 @@ public class SwfWorkloadFormatExample1 {
     /**
      * The workload file to be read.
      */
-    private static final String WORKLOAD_FILENAME = "NASA-iPSC-1993-3.1-cln.swf.gz";
+    private static final String WORKLOAD_FILENAME = "teste.swf";
 
     /**
      * A {@link Comparator} that sorts VMs submitted to a broker
@@ -192,8 +192,8 @@ public class SwfWorkloadFormatExample1 {
         WorkloadFileReader reader = WorkloadFileReader.getInstance(fileName, CLOUDLETS_MIPS);
         reader.setMaxLinesToRead(maximumNumberOfCloudletsToCreateFromTheWorkloadFile);
         this.cloudletList = reader.generateWorkload();
-
         System.out.printf("# Created %d Cloudlets for %s\n", this.cloudletList.size(), broker);
+   
     }
 
     /**
